@@ -1,0 +1,33 @@
+.gridspace {
+  background-color: lightgrey;
+}
+
+.gridspace.light-pillar {
+  background-color: green;
+}
+
+.gridspace.dark-pillar {
+  background-color: teal;
+}
+
+.gridspace.apple {
+  background-color: red;
+}
+
+.game-container {
+  opacity: 0;
+  position: relative;
+
+  -webkit-transition: opacity 1s ease-in;
+     -moz-transition: opacity 1s ease-in;
+      -ms-transition: opacity 1s ease-in;
+       -o-transition: opacity 1s ease-in;
+          transition: opacity 1s ease-in;
+}
+
+.start-game {
+  display: inline;
+  position: absolute;
+  left: 200px;
+  top: 250px;
+}
