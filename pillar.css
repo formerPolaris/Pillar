@@ -1,23 +1,62 @@
-.gridspace {
-  background-color: lightgrey;
+.main-menu-div {
+  -webkit-transition: opacity 1s ease-in;
+     -moz-transition: opacity 1s ease-in;
+      -ms-transition: opacity 1s ease-in;
+       -o-transition: opacity 1s ease-in;
+          transition: opacity 1s ease-in;
+          background-color: #ffff8b;
 }
 
-.gridspace.light-pillar {
-  background-color: green;
-}
-
-.gridspace.dark-pillar {
-  background-color: teal;
-}
-
-.gridspace.apple {
-  background-color: red;
-}
-
-.game-container {
+.main-menu-image {
   opacity: 0;
+  -webkit-transition: opacity 1s ease-in;
+   -moz-transition: opacity 1s ease-in;
+    -ms-transition: opacity 1s ease-in;
+     -o-transition: opacity 1s ease-in;
+        transition: opacity 1s ease-in;
   position: relative;
+  background-color: #ffff8b;
+}
 
+.new-game-link {
+  cursor: pointer;
+  height: 5%;
+  width: 32%;
+  position: absolute;
+  bottom: 43.3%;
+  left: 34%;
+}
+
+.options-link {
+  cursor: pointer;
+  height: 5%;
+  width: 22%;
+  position: absolute;
+  bottom: 34.7%;
+  left: 39%;
+}
+
+.help-link {
+  cursor: pointer;
+  height: 5%;
+  width: 13%;
+  position: absolute;
+  bottom: 25.7%;
+  left: 43.5%;
+}
+
+.about-link {
+  cursor: pointer;
+  height: 5%;
+  width: 17.5%;
+  position: absolute;
+  bottom: 17%;
+  left: 41.5%;
+}
+
+.game-board {
+  position: relative;
+  overflow: hidden;
   -webkit-transition: opacity 1s ease-in;
      -moz-transition: opacity 1s ease-in;
       -ms-transition: opacity 1s ease-in;
@@ -25,9 +64,97 @@
           transition: opacity 1s ease-in;
 }
 
-.start-game {
-  display: inline;
+.gridspace {
+  opacity: 0;
+}
+
+.gridspace.light-pillar {
+  opacity: 1;
+  background-color: green;
+}
+
+.gridspace.dark-pillar {
+  opacity: 1;
+  background-color: teal;
+}
+
+.gridspace.apple {
+  opacity: 1;
+  background-color: red;
+}
+
+.score-holder {
   position: absolute;
-  left: 200px;
-  top: 250px;
+}
+
+.select-motif {
+  position: absolute;
+  opacity: 0;
+    -webkit-transition: opacity .2s ease-out;
+   -moz-transition: opacity .2s ease-out;
+    -ms-transition: opacity .2s ease-out;
+     -o-transition: opacity .2s ease-out;
+        transition: opacity .2s ease-out;
+}
+
+.select-motif.active {
+  position: absolute;
+  opacity: 1;
+  -webkit-transition: opacity .2s ease-in;
+   -moz-transition: opacity .2s ease-in;
+    -ms-transition: opacity .2s ease-in;
+     -o-transition: opacity .2s ease-in;
+        transition: opacity .2s ease-in;
+
+}
+
+.select-motif img.left {
+  float: left;
+}
+
+.select-motif img.right {
+  float: right;
+
+  -webkit-transform: scaleX(-1);
+   -moz-transform: scaleX(-1);
+    -ms-filter: "FlipH";
+     -o-transform: scaleX(-1);
+      transform: scaleX(-1);
+       filter: FlipH;
+}
+
+.new-game-motif {
+  cursor: pointer;
+  height: 5%;
+  width: 42%;
+  position: absolute;
+  bottom: 43.3%;
+  left: 29%;
+}
+
+.options-motif {
+  cursor: pointer;
+  height: 5%;
+  width: 32%;
+  position: absolute;
+  bottom: 34.7%;
+  left: 34%;
+}
+
+.help-motif {
+  cursor: pointer;
+  height: 5%;
+  width: 23%;
+  position: absolute;
+  bottom: 25.7%;
+  left: 38.5%;
+}
+
+.about-motif {
+  cursor: pointer;
+  height: 5%;
+  width: 32.5%;
+  position: absolute;
+  bottom: 17%;
+  left: 34%;
 }
