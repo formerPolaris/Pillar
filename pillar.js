@@ -97,7 +97,7 @@
         [
           Math.floor(options.yGridSize/2),
           Math.floor(options.xGridSize/2),
-          2 //color
+          1 //color
         ]
       ];
       this.scrunched = 1;

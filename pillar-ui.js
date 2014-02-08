@@ -30,6 +30,24 @@
       $("." + PillarUI.mainMenuSelection + "-motif").addClass("active");
     }
   };
+  var makeSelection = PillarUI.makeSelection = function () {
+    switch (PillarUI.mainMenuSelection) {
+      case "new-game":
+        PillarUI.initializeBoard();
+        break;
+      case "options":
+        PillarUI.initializeOptionsMenu();
+        break;
+      case "help":
+        PillarUI.initializeHelp();
+        break;
+      case "about":
+        PillarUI.initializeAbout();
+        break;
+      default:
+        return;
+    }
+  }
 
   // General structure:
   // Element constructor/recycler
@@ -121,11 +139,10 @@
   };
 
   var initMenuControls = PillarUI.initMenuControls = function() {
-    var that = this;
     $(document).keydown(function(e) {
       e.preventDefault();
-      var currentIndex = that.mainMenuSelectables.indexOf(that.mainMenuSelection);
-      var selectablesLength = that.mainMenuSelectables.length;
+      var currentIndex = PillarUI.mainMenuSelectables.indexOf(PillarUI.mainMenuSelection);
+      var selectablesLength = PillarUI.mainMenuSelectables.length;
       var getNewIndex = function() {
         if (currentIndex < 0) {
           currentIndex = selectablesLength - (Math.abs(currentIndex) % selectablesLength);
@@ -142,10 +159,10 @@
       }
       switch(e.which) {
         case 13:
-
+          PillarUI.makeSelection();
           break;
         case 0:
-
+          PillarUI.makeSelection();
           break;
         case 37:
           currentIndex -= 1;
@@ -197,10 +214,6 @@
 
   };
 
-  var initializeHelp = PillarUI.initializeHelp = function() {
-
-  };
-
   var initializeAbout = PillarUI.initializeAbout = function() {
     if(PillarUI.aboutView === undefined) {
       var $aboutDiv = PillarUI.$aboutDiv = jQuery("<div/>", {
@@ -208,8 +221,8 @@
       });
 
       $aboutDiv.css({
-        "height": PillarUI.mainMenuView.parent.height(),
-        "width": PillarUI.mainMenuView.parent.width()
+        "height": PillarUI.$gameContainer.height(),
+        "width": PillarUI.$gameContainer.width()
       })
 
       var aboutView = PillarUI.aboutView = new CView(
@@ -223,7 +236,7 @@
         src: "https://s3-us-west-1.amazonaws.com/polaris-pillar-main/pillar-about.png"
       }));
 
-      aboutView.createLink("back");
+      aboutView.createLink("about-back");
       aboutView.createLink("polaris");
 
     }
@@ -233,14 +246,14 @@
   var initAboutControls = PillarUI.bindAboutEvents = function () {
     $(document).keydown(function(e) {
       e.preventDefault();
-      if (e.which == 37) {
+      if (e.keyCode == 27) {
         PillarUI.initializeMenu();
       }
     });
   };
 
   var bindAboutEvents = PillarUI.bindAboutEvents = function () {
-    $(".back-link").click(function(event) {
+    $(".about-back-link").click(function(event) {
       event.preventDefault();
       PillarUI.initializeMenu();
     });
@@ -250,6 +263,48 @@
     });
   };
 
+  var initializeHelp = PillarUI.initializeHelp = function() {
+    if(PillarUI.helpView === undefined) {
+      var $helpDiv = PillarUI.$helpDiv = jQuery("<div/>", {
+        class: "help-div"
+      });
+
+      $helpDiv.css({
+        "height": PillarUI.$gameContainer.height(),
+        "width": PillarUI.$gameContainer.width()
+      })
+
+      var helpView = PillarUI.helpView = new CView(
+        $helpDiv,
+        PillarUI.$gameContainer,
+        false
+      );
+
+      helpView.loadElement(jQuery("<img/>",{
+        class: "help-image",
+        src: "https://s3-us-west-1.amazonaws.com/polaris-pillar-main/pillar-help.png"
+      }));
+
+      helpView.createLink("help-back");
+    }
+    PillarUI.swapView(PillarUI.helpView, [initHelpControls, bindHelpEvents]);
+  };
+
+  var initHelpControls = PillarUI.bindHelpEvents = function () {
+    $(document).keydown(function(e) {
+      e.preventDefault();
+      if (e.keyCode == 27) {
+        PillarUI.initializeMenu();
+      }
+    });
+  };
+
+  var bindHelpEvents = PillarUI.bindHelpEvents = function () {
+    $(".help-back-link").click(function(event) {
+      event.preventDefault();
+      PillarUI.initializeMenu();
+    });
+  };
   var displayedScore = PillarUI.displayedScore = 0;
 
   var initializeBoard = PillarUI.initializeBoard = function() {
@@ -412,6 +467,10 @@ $(document).ready(function() {
           console.log(this.numberPlays);
         },
         onfinish: function () {
+          this.numberPlays -= 1;
+          console.log(this.numberPlays);
+        },
+        onstop: function () {
           this.numberPlays -= 1;
           console.log(this.numberPlays);
         },

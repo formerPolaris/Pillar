@@ -57,7 +57,14 @@
   background-color: #ffff8b;
 }
 
-.back-link {
+.about-back-link {
+  height: 5%;
+  width: 11%;
+  bottom: 2%;
+  left: 2%;
+}
+
+.help-back-link {
   height: 5%;
   width: 11%;
   bottom: 2%;
@@ -73,12 +80,12 @@
   opacity: 0;
 }
 
-.gridspace.light-pillar {
+.gridspace.dark-pillar {
   opacity: 1;
   background-color: green;
 }
 
-.gridspace.dark-pillar {
+.gridspace.light-pillar {
   opacity: 1;
   background-color: teal;
 }
