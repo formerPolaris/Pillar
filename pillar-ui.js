@@ -68,6 +68,11 @@
           "width": imageW,
           "display": "none"
         });
+        PillarUI.$gameContainer.css({
+          "height": imageH,
+          "width": imageW,
+          "background-color": "#ffff8b"
+        });
         callback();
       };
 
