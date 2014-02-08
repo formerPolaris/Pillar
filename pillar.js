@@ -7,13 +7,13 @@
       this.yGridSize = 10,
       this.gameSpeed = 200,
       this.maxGameSpeed = 80,
-      this.sound = "on"
+      this.sound = 100
     },
     xGridSize: 10,
     yGridSize: 10,
     gameSpeed: 200,
     maxGameSpeed: 80,
-    sound: "on"
+    sound: 100
   };
 
   var board = Pillar.board = {
@@ -200,6 +200,7 @@
     var headY = player.head()[0]
     var headX = player.head()[1]
 
+    // Out of bounds
     if (player.head()[0] < 0 || player.head()[1] < 0) {
       return true;
     } else if (player.head()[0] >= options.yGridSize) {
@@ -207,9 +208,10 @@
     } else if (player.head()[1] >= options.xGridSize) {
       return true;
     }
-
+    
+    // Self-collision
     for (var i = 0; i < player.size() - 2; i++) {
-      if (player.spaces[i][0] == headY && player.spaces[i][1] == headX) {
+      if (player.spaces[i][0] == headY && player.spaces[i][1] == headX) { 
         return true;
       }
     }
@@ -219,7 +221,6 @@
 
   var gameOver = Pillar.gameOver = function() {
     done = true;
-    alert("You're all out of adventures :(");
   };
 
   var done = Pillar.done = false;

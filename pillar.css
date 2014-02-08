@@ -1,67 +1,72 @@
 .main-menu-div {
-  -webkit-transition: opacity 1s ease-in;
-     -moz-transition: opacity 1s ease-in;
-      -ms-transition: opacity 1s ease-in;
-       -o-transition: opacity 1s ease-in;
-          transition: opacity 1s ease-in;
-          background-color: #ffff8b;
+  background-color: #ffff8b;
+  position: relative;
 }
 
 .main-menu-image {
-  opacity: 0;
-  -webkit-transition: opacity 1s ease-in;
-   -moz-transition: opacity 1s ease-in;
-    -ms-transition: opacity 1s ease-in;
-     -o-transition: opacity 1s ease-in;
-        transition: opacity 1s ease-in;
   position: relative;
   background-color: #ffff8b;
 }
 
-.new-game-link {
+.pillar-link {
   cursor: pointer;
+  position: absolute;
+}
+
+.new-game-link {
   height: 5%;
   width: 32%;
-  position: absolute;
   bottom: 43.3%;
   left: 34%;
 }
 
 .options-link {
-  cursor: pointer;
   height: 5%;
   width: 22%;
-  position: absolute;
   bottom: 34.7%;
   left: 39%;
 }
 
 .help-link {
-  cursor: pointer;
   height: 5%;
   width: 13%;
-  position: absolute;
   bottom: 25.7%;
   left: 43.5%;
 }
 
+.about-div {
+  background-color: #ffff8b;
+  position: relative;
+}
+
 .about-link {
-  cursor: pointer;
   height: 5%;
   width: 17.5%;
-  position: absolute;
   bottom: 17%;
   left: 41.5%;
+}
+
+.polaris-link {
+  height: 3%;
+  width: 24%;
+  bottom: 67%;
+  left: 38%;
+}
+
+.about-image {
+  background-color: #ffff8b;
+}
+
+.back-link {
+  height: 5%;
+  width: 11%;
+  bottom: 2%;
+  left: 2%;
 }
 
 .game-board {
   position: relative;
   overflow: hidden;
-  -webkit-transition: opacity 1s ease-in;
-     -moz-transition: opacity 1s ease-in;
-      -ms-transition: opacity 1s ease-in;
-       -o-transition: opacity 1s ease-in;
-          transition: opacity 1s ease-in;
 }
 
 .gridspace {
@@ -84,6 +89,8 @@
 }
 
 .score-holder {
+  font-size: 18px;
+  color: teal;
   position: absolute;
 }
 
@@ -124,37 +131,29 @@
 }
 
 .new-game-motif {
-  cursor: pointer;
   height: 5%;
-  width: 42%;
-  position: absolute;
+  width: 57%;
   bottom: 43.3%;
-  left: 29%;
+  left: 21.5%;
 }
 
 .options-motif {
-  cursor: pointer;
   height: 5%;
-  width: 32%;
-  position: absolute;
+  width: 47%;
   bottom: 34.7%;
-  left: 34%;
+  left: 26.5%;
 }
 
 .help-motif {
-  cursor: pointer;
   height: 5%;
-  width: 23%;
-  position: absolute;
+  width: 38%;
   bottom: 25.7%;
-  left: 38.5%;
+  left: 31%;
 }
 
 .about-motif {
-  cursor: pointer;
   height: 5%;
-  width: 32.5%;
-  position: absolute;
+  width: 41.5%;
   bottom: 17%;
-  left: 34%;
+  left: 29.5%;
 }
