@@ -4,9 +4,9 @@
   var currentView = PillarUI.currentView = null;
   var swapView = PillarUI.swapView = function(view, callbacks) {
     $(document).off(); // unbind key listeners
-    currentView && currentView.hide(); // also unbinds event listeners
+    currentView && currentView.hideView(); // also unbinds event listeners
     currentView = view;
-    view.show(callbacks);
+    view.showView(callbacks);
   };
 
   var mainMenuSelectables = PillarUI.mainMenuSelectables = [
@@ -210,7 +210,52 @@
     });
   }
 
+  var options = PillarUI.options = {
+    xGridSize: 10,
+    yGridSize: 10,
+    gameSpeed: 200,
+    maxGameSpeed: 80,
+    pillarType: "luna",
+    pillarColorNumber: function () {
+      switch(this.pillarType) {
+        case "swallowtail":
+          return 2;
+        case "luna":
+          return 2;
+        case "monarch":
+          return 5;
+      }
+    }
+  };
+
   var initializeOptionsMenu = PillarUI.initializeOptionsMenu = function() {
+    if(PillarUI.optionsMenuView === undefined) {
+      var $optionsMenuDiv = PillarUI.$optionsMenuDiv = jQuery("<div/>", {
+        class: "options-menu-div"
+      });
+
+      $optionsMenuDiv.css({
+        "height": PillarUI.$gameContainer.height(),
+        "width": PillarUI.$gameContainer.width()
+      })
+
+      var optionsMenuView = PillarUI.optionsMenuView = new CView(
+        $optionsMenuDiv,
+        PillarUI.$gameContainer,
+        false
+      );
+
+      optionsMenuView.loadElement(jQuery("<img/>",{
+        class: "options-menu-image",
+        src: "https://s3-us-west-1.amazonaws.com/polaris-pillar-main/pillar-options-menu.png"
+      }));
+
+      optionsMenuView.createLink("options-menu-back");
+    }
+    PillarUI.swapView(PillarUI.optionsMenuView, [bindEscToBack, bindOptionsMenuEvents]);
+  };
+  
+  var bindOptionsMenuEvents = PillarUI.bindOptionsMenuEvents = function () {
 
   };
 
@@ -240,16 +285,7 @@
       aboutView.createLink("polaris");
 
     }
-    PillarUI.swapView(PillarUI.aboutView, [initAboutControls, bindAboutEvents]);
-  };
-
-  var initAboutControls = PillarUI.bindAboutEvents = function () {
-    $(document).keydown(function(e) {
-      e.preventDefault();
-      if (e.keyCode == 27) {
-        PillarUI.initializeMenu();
-      }
-    });
+    PillarUI.swapView(PillarUI.aboutView, [bindEscToBack, bindAboutEvents]);
   };
 
   var bindAboutEvents = PillarUI.bindAboutEvents = function () {
@@ -287,16 +323,7 @@
 
       helpView.createLink("help-back");
     }
-    PillarUI.swapView(PillarUI.helpView, [initHelpControls, bindHelpEvents]);
-  };
-
-  var initHelpControls = PillarUI.bindHelpEvents = function () {
-    $(document).keydown(function(e) {
-      e.preventDefault();
-      if (e.keyCode == 27) {
-        PillarUI.initializeMenu();
-      }
-    });
+    PillarUI.swapView(PillarUI.helpView, [bindEscToBack, bindHelpEvents]);
   };
 
   var bindHelpEvents = PillarUI.bindHelpEvents = function () {
@@ -307,9 +334,17 @@
   };
   var displayedScore = PillarUI.displayedScore = 0;
 
+  var bindEscToBack = PillarUI.bindEscToBack = function () {
+    $(document).keydown(function(e) {
+      e.preventDefault();
+      if (e.keyCode == 27) {
+        PillarUI.initializeMenu();
+      }
+    });
+  };
   var initializeBoard = PillarUI.initializeBoard = function() {
     var $gameBoard = jQuery("<table/>", {
-      class: "game-board"
+      class: "game-board" + " " + PillarUI.options.pillarType
     });
     var spacing = 0;
 
@@ -324,8 +359,8 @@
     var arenaY = PillarUI.mainMenuView.parentHeight;
     var arenaX = PillarUI.mainMenuView.parentWidth;
 
-    var minXSquares = Pillar.options.xGridSize;
-    var minYSquares = Pillar.options.yGridSize;
+    var minXSquares = PillarUI.options.xGridSize;
+    var minYSquares = PillarUI.options.yGridSize;
 
     var givenXSquares = minXSquares;
     var givenYSquares = minYSquares;
@@ -380,38 +415,32 @@
   };
 
   var beginUpdates = PillarUI.beginUpdates = function() {
-    window.setTimeout(function() {
-      Pillar.startGame({
-        "displayCallback": updateBoard,
-        "resetCallback": reset
-      })
-    }, 1000);
+    Pillar.startGame({
+      "displayCallback": updateBoard,
+      "resetCallback": reset
+    }, PillarUI.options);
   };
 
   var updateBoard = PillarUI.updateBoard = function(board, gameScore) {
     for (var y = 0; y < board.length; y++) {
       for(var x = 0; x < board[0].length; x++) {
-        var currentElement = PillarUI.elementGrid[y][x]
-        switch(board[y][x]) {
-          case 0:
-            currentElement.removeClass("light-pillar");
-            currentElement.removeClass("dark-pillar");
-            currentElement.removeClass("apple");
-            break;
+        var currentElement = PillarUI.elementGrid[y][x];
+        currentElement.attr("class", "gridspace");
+        var num;
+        if (board[y][x] > 1) {
+          num = board[y][x] % options.pillarColorNumber() + 2;
+        } else {
+          num = board[y][x];
+        }
+        var determiner = num > 1 ? "color" : num;
+        switch(determiner) {
           case 1:
-            currentElement.removeClass("light-pillar");
-            currentElement.addClass("dark-pillar");
-            currentElement.removeClass("apple");
-            break;
-          case 2:
-            currentElement.addClass("light-pillar");
-            currentElement.removeClass("dark-pillar");
-            currentElement.removeClass("apple");
-            break;
-          case 3:
-            currentElement.removeClass("light-pillar");
-            currentElement.removeClass("dark-pillar");
             currentElement.addClass("apple");
+          case "color":
+            currentElement.addClass("color" + (num - 1));
+            break;
+          default:
+            currentElement.addClass("clear");
             break;
         }
       }
@@ -419,10 +448,10 @@
     if (PillarUI.displayedScore < gameScore) {
       PillarUI.displayedScore = gameScore;
       PillarUI.$score.css({
-        "color": "red"
+        "color": "blue"
       });
       PillarUI.$score.animate({
-        "color": "teal"
+        "color": "black"
       });
       PillarUI.$score.text("Score: " + PillarUI.displayedScore);
       var soundNumber = Math.floor(Math.random() * 3) + 1;
@@ -434,7 +463,7 @@
     alert("You're all out of adventures :(");
     PillarUI.displayedScore = 0;
     PillarUI.boardView.destroy();
-    soundManager.stop("bgm");
+    soundManager.stopAll();
     PillarUI.initializeMenu();
   }
 })(this);
@@ -459,7 +488,7 @@ $(document).ready(function() {
         onplay: function() {
           this.numberPlays += 1;
           var that = this;
-          soundManager.onPosition("bgm", 60498, function() {
+          soundManager.onPosition("bgm", 60574, function() {
             if (that.numberPlays < 2) {
               soundManager.play("bgm");
             }

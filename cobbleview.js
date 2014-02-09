@@ -35,11 +35,11 @@ CView.prototype.createLink = function(name) {
   return this.loadElement(newLink);
 }
 
-CView.prototype.show = function(callbacks) {
+CView.prototype.showView = function(callbacks) {
   this.visible = true;
   var that = this;
   this.parent.css({
-    "display": this.parentDisplay,
+    "display": this.parentDisplay
   });
   this.parent.animate({
     "opacity": 1
@@ -56,7 +56,7 @@ CView.prototype.show = function(callbacks) {
   });
 };
 
-CView.prototype.hide = function(callbacks) {
+CView.prototype.hideView = function(callbacks) {
   this.visible = false;
   // $(document).off();
   // Add if you want to unbind document-level events like keypresses

@@ -1,3 +1,12 @@
+.pillar-game {
+  -moz-user-select: -moz-none;
+   -khtml-user-select: none;
+    -webkit-user-select: none;
+     -o-user-select: none;
+      user-select: none;
+
+}
+
 .main-menu-div {
   background-color: #ffff8b;
   position: relative;
@@ -64,6 +73,22 @@
   left: 2%;
 }
 
+.options-menu-image {
+  background-color: #ffff8b;
+}
+
+.options-menu-volume-slider {
+  height: 5%;
+  width: 55%;
+}
+
+.options-menu-back-link {
+  height: 5%;
+  width: 11%;
+  bottom: 2%;
+  left: 2%;
+}
+
 .help-back-link {
   height: 5%;
   width: 11%;
@@ -76,23 +101,49 @@
   overflow: hidden;
 }
 
-.gridspace {
+.gridspace.clear {
   opacity: 0;
-}
-
-.gridspace.dark-pillar {
-  opacity: 1;
-  background-color: green;
-}
-
-.gridspace.light-pillar {
-  opacity: 1;
-  background-color: teal;
 }
 
 .gridspace.apple {
   opacity: 1;
   background-color: red;
+}
+
+.luna .color1 {
+  background-color: green;
+}
+
+.luna .color2 {
+  background-color: teal;
+}
+
+.swallowtail .color1 {
+  background-color: orange;
+}
+
+.swallowtail .color2 {
+  background-color: yellow;
+}
+
+.monarch .color1 {
+  background-color: yellow;
+}
+
+.monarch .color2 {
+  background-color: black;
+}
+
+.monarch .color3 {
+  background-color: white;
+}
+
+.monarch .color4 {
+  background-color: black;
+}
+
+.monarch .color5 {
+  background-color: white;
 }
 
 .score-holder {

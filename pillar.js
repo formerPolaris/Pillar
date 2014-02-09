@@ -2,19 +2,23 @@
   var Pillar = root.Pillar = (root.Pillar || {});
 
   var options = Pillar.options = {
-    reset: function() {
+    setCustom: function(optionsHash) {
+      this.xGridSize = optionsHash.xGridSize;
+      this.yGridSize = optionsHash.yGridSize;
+      this.gameSpeed = optionsHash.gameSpeed;
+      this.maxGameSpeed = optionsHash.maxGameSpeed;
+      this.sound = optionsHash.sound;
+    },
+    setDefaults: function() { // Assuming no UI plugged in
       this.xGridSize = 10,
       this.yGridSize = 10,
       this.gameSpeed = 200,
       this.maxGameSpeed = 80,
       this.sound = 100
-    },
-    xGridSize: 10,
-    yGridSize: 10,
-    gameSpeed: 200,
-    maxGameSpeed: 80,
-    sound: 100
+    }
   };
+
+  options.setDefaults();
 
   var board = Pillar.board = {
     initialize: function() {
@@ -27,7 +31,7 @@
         newBoard[i] = new Array(options.xGridSize);
         for (var j = 0; j < newBoard[0].length; j++) {
           newBoard[i][j] = 0;
-          // 0 = empty; 1 = dark pillar; 2 = light pillar; 3 = apple
+          // 0 = empty; 1 = apple; any higher than 1 = pillar's colors
         }
       }
       this.layout = newBoard;
@@ -36,20 +40,20 @@
     update: function() {
       for (var i = 0; i < this.layout.length; i++) {
         for (var j = 0; j < this.layout[0].length; j++) {
-          if (this.layout[i][j] == 1 || this.layout[i][j] == 2) {
+          if (this.layout[i][j] > 1) {
             this.layout[i][j] = 0;
           }
         }
       }
 
       var that = this;
-
+      var colorOffset = -1;
       player.spaces.forEach(function(space) {
         var currentY = space[0];
         var currentX = space[1];
-        var currentColor = space[2];
+        var currentColor = player.spaces.length - colorOffset;
 
-        if (that.layout[currentY][currentX] == 3) {
+        if (that.layout[currentY][currentX] == 1) {
           if(options.gameSpeed > options.maxGameSpeed) {
             options.gameSpeed -= 5;
           }
@@ -60,6 +64,7 @@
         }
         
         that.layout[currentY][currentX] = currentColor;
+        colorOffset++;
       });
 
       if(!this.hasApple) {
@@ -68,36 +73,43 @@
     },
 
     spawnApple: function() {
-      var y = Math.floor((options.yGridSize - 1) * Math.random());
-      var x = Math.floor((options.xGridSize - 1) * Math.random());
+      var y = Math.floor((options.yGridSize) * Math.random());
+      var x = Math.floor((options.xGridSize) * Math.random());
 
-      if (this.layout[y][x] != 1 && this.layout[y][x] != 2) {
-        this.layout[y][x] = 3;
+      if (this.layout[y][x] !== undefined && this.layout[y][x] < 2) {
+        this.layout[y][x] = 1;
         this.hasApple = true;
       }
+      // Explicit undefined check necessary because 0 is falsy
+      // And there is the rare case of random inclusion
     },
 
     display: function(callback) {
       var that = this;
-      callback(that.layout, that.roundScore);
+      callback || (function () {
+        for (var i = 0; i < that.layout.length; i++) {
+          for (var j = 0; j < that.layout[0].length; j++) {
+            console.log(that.layout[j][i]);
+          }
+        }
+      })();
+      callback && callback(that.layout, that.roundScore);
     },
 
     // Display takes an external module callback and calls it with the board
     // as an argument.
 
     roundScore: 0,
-    roundBonus: 0,
+    roundBonus: 0
   }
 
   var player = Pillar.player = {
     initialize: function() {
-      this.nextColor = 2;
       this.direction = "right";
       this.spaces = [
         [
           Math.floor(options.yGridSize/2),
-          Math.floor(options.xGridSize/2),
-          1 //color
+          Math.floor(options.xGridSize/2)
         ]
       ];
       this.scrunched = 1;
@@ -105,18 +117,11 @@
       this.growing = 0;
     },
 
-    toggleSpaceColor: function(space) {
-      if(space[2] == 2) {
-        space[2] = 1;
-      } else {
-        space[2] = 2;
-      }
+    head: function() {
+      return this.spaces[this.size() - 1];
     },
-    swapColors: function() {
-      var that = this;
-      this.spaces.forEach(function(space) {
-        that.toggleSpaceColor(space);
-      });
+    size: function() {
+      return this.spaces.length;
     },
 
     setDirection: function(dir) {
@@ -137,13 +142,6 @@
       }
     },
 
-    head: function() {
-      return this.spaces[this.size() - 1];
-    },
-    size: function() {
-      return this.spaces.length;
-    },
-
     chooseMode: function() {
       if (this.mode == "moving") {
         if (this.scrunched == 0) {
@@ -156,10 +154,8 @@
         }
       }
     },
-
     move: function() {
-      var newSpace = new Array(this.head()[0], this.head()[1], this.head()[2]);
-      this.swapColors();
+      var newSpace = new Array(this.head()[0], this.head()[1]);
       switch(this.direction) {
         case "right":
           newSpace[1] += 1;
@@ -237,11 +233,12 @@
 
   var UICallbacks = Pillar.UICallbacks = {};
 
-  var startGame = Pillar.startGame = function(callBackHash) {
+  var startGame = Pillar.startGame = function(callBackHash, optionsHash) {
     // Callbacks are interface methods: Display board; victory; failure; reset
+    // Options set in UI; otherwise, default
     var that = this;
     this.UICallbacks = callBackHash;
-    options.reset();
+    optionsHash ? options.setCustom(optionsHash) : options.setDefaults();
     player.initialize();
     board.initialize();
     root.gameLoop = Pillar.gameLoop = function() {
@@ -257,7 +254,6 @@
 
   var reset = Pillar.reset = function(resetCallback) {
     done = false;
-    options.reset();
     player.initialize();
     board.initialize();
     resetCallback();
