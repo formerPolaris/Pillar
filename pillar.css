@@ -4,7 +4,6 @@
     -webkit-user-select: none;
      -o-user-select: none;
       user-select: none;
-
 }
 
 .main-menu-div {
@@ -73,6 +72,10 @@
   left: 2%;
 }
 
+.options-menu-div {
+  position: relative;
+}
+
 .options-menu-image {
   background-color: #ffff8b;
 }
@@ -87,6 +90,10 @@
   width: 11%;
   bottom: 2%;
   left: 2%;
+}
+
+.help-div {
+  position: relative;
 }
 
 .help-back-link {

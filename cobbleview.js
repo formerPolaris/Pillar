@@ -16,12 +16,6 @@ function CView (parent, target, visible, jQElements) {
   this.parent.appendTo(target);
 };
 
-CView.setStoredParentAttributes = function (attributes, callbacks) {
-  callbacks && callbacks.forEach(function (callback) {
-    callback();
-  });
-};
-
 CView.prototype.loadElement = function(element) {
   element.appendTo(this.parent);
   this.elements.push(element);
@@ -30,7 +24,7 @@ CView.prototype.loadElement = function(element) {
 
 CView.prototype.createLink = function(name) {
   var newLink = jQuery("<div/>", {
-    class: name + "-link pillar-link"
+    class: name + "-link"
   })
   return this.loadElement(newLink);
 }

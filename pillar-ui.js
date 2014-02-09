@@ -109,7 +109,7 @@
             class: "right",
             src: "https://s3-us-west-1.amazonaws.com/polaris-pillar-main/moddedleaf.png"
           }).appendTo($currentLink);
-          var $currentElement = mainMenuView.createLink(name);
+          var $currentElement = mainMenuView.createLink(name).addClass("pillar-link");
         });
       };
 
@@ -215,6 +215,7 @@
     yGridSize: 10,
     gameSpeed: 200,
     maxGameSpeed: 80,
+    volume: 100,
     pillarType: "luna",
     pillarColorNumber: function () {
       switch(this.pillarType) {
@@ -250,13 +251,31 @@
         src: "https://s3-us-west-1.amazonaws.com/polaris-pillar-main/pillar-options-menu.png"
       }));
 
-      optionsMenuView.createLink("options-menu-back");
+      optionsMenuView.createLink("options-menu-back").addClass("pillar-link");
+
+      var $volumeSlider = jQuery("<div/>", {
+        class: "options-menu-volume-slider"
+      });
+      var resetVolumeSlider = function () {
+        $volumeSlider.slider({
+          range: "min",
+          value: PillarUI.options.volume,
+          min: 0,
+          max: 100
+        })
+      };
+      resetVolumeSlider();
+
+      optionsMenuView.loadElement($volumeSlider);
     }
     PillarUI.swapView(PillarUI.optionsMenuView, [bindEscToBack, bindOptionsMenuEvents]);
   };
   
   var bindOptionsMenuEvents = PillarUI.bindOptionsMenuEvents = function () {
-
+    $(".options-menu-back-link").click(function(event) {
+      event.preventDefault();
+      PillarUI.initializeMenu();
+    });
   };
 
   var initializeAbout = PillarUI.initializeAbout = function() {
@@ -281,9 +300,8 @@
         src: "https://s3-us-west-1.amazonaws.com/polaris-pillar-main/pillar-about.png"
       }));
 
-      aboutView.createLink("about-back");
-      aboutView.createLink("polaris");
-
+      aboutView.createLink("about-back").addClass("pillar-link");
+      aboutView.createLink("polaris").addClass("pillar-link");
     }
     PillarUI.swapView(PillarUI.aboutView, [bindEscToBack, bindAboutEvents]);
   };
@@ -321,7 +339,7 @@
         src: "https://s3-us-west-1.amazonaws.com/polaris-pillar-main/pillar-help.png"
       }));
 
-      helpView.createLink("help-back");
+      helpView.createLink("help-back").addClass("pillar-link");
     }
     PillarUI.swapView(PillarUI.helpView, [bindEscToBack, bindHelpEvents]);
   };
@@ -342,6 +360,7 @@
       }
     });
   };
+
   var initializeBoard = PillarUI.initializeBoard = function() {
     var $gameBoard = jQuery("<table/>", {
       class: "game-board" + " " + PillarUI.options.pillarType
@@ -471,7 +490,7 @@
 $(document).ready(function() {
   PillarUI.soundsArray = new Array;
   soundManager.setup({
-    url: "./soundmanager/soundmanager2.swf",
+    url: "https://s3-us-west-1.amazonaws.com/polaris-pillar-main/soundmanager2.swf",
     flashVersion: 8,
     onready: function() {
       soundManager.createSound({
