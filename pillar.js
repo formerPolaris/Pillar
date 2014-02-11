@@ -7,13 +7,15 @@
       this.yGridSize = optionsHash.yGridSize;
       this.gameSpeed = optionsHash.gameSpeed;
       this.maxGameSpeed = optionsHash.maxGameSpeed;
+      this.gameSpeedGain = optionsHash.gameSpeedGain;
       this.sound = optionsHash.sound;
     },
     setDefaults: function() { // Assuming no UI plugged in
-      this.xGridSize = 10,
-      this.yGridSize = 10,
-      this.gameSpeed = 200,
+      this.xGridSize = 12,
+      this.yGridSize = 12,
+      this.gameSpeed = 150,
       this.maxGameSpeed = 80,
+      this.gameSpeedGain = 5,
       this.sound = 100
     }
   };
@@ -55,7 +57,10 @@
 
         if (that.layout[currentY][currentX] == 1) {
           if(options.gameSpeed > options.maxGameSpeed) {
-            options.gameSpeed -= 5;
+            options.gameSpeed -= options.gameSpeedGain;
+            if (options.gameSpeed < options.maxGameSpeed){
+              options.gameSpeed = options.maxGameSpeed;
+            }
           }
           that.hasApple = false;
           player.growing += 1;
@@ -108,8 +113,8 @@
       this.direction = "right";
       this.spaces = [
         [
-          Math.floor(options.yGridSize/2),
-          Math.floor(options.xGridSize/2)
+          Math.floor(options.yGridSize/2) - 1,
+          Math.floor(options.xGridSize/2) - 1
         ]
       ];
       this.scrunched = 1;

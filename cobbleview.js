@@ -52,8 +52,6 @@ CView.prototype.showView = function(callbacks) {
 
 CView.prototype.hideView = function(callbacks) {
   this.visible = false;
-  // $(document).off();
-  // Add if you want to unbind document-level events like keypresses
   this.parent.off();
   this.elements.forEach(function (element) {
     element.off();

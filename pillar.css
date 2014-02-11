@@ -6,6 +6,15 @@
       user-select: none;
 }
 
+.pillar-logo-img {
+  position: absolute;
+    -moz-transition: width .5s ease-in-out;
+    -webkit-transition: width .5s ease-in-out;
+    -moz-transition: width .5s ease-in-out;
+    -o-transition: width .5s ease-in-out;
+    transition: width .5s ease-in-out;
+}
+
 .main-menu-div {
   background-color: #ffff8b;
   position: relative;
@@ -59,6 +68,7 @@
   width: 24%;
   bottom: 67%;
   left: 38%;
+  border-radius: 3px;
 }
 
 .about-image {
@@ -80,9 +90,88 @@
   background-color: #ffff8b;
 }
 
+.pillar-slider {
+  position: absolute;
+  width: 40.5%;
+  height: 2%;
+  left: 42%;
+}
+
 .options-menu-volume-slider {
-  height: 5%;
-  width: 55%;
+  bottom: 77%;
+}
+
+.options-menu-start-speed-slider {
+  bottom: 30.5%;
+}
+
+.options-menu-speed-gain-slider {
+  bottom: 21%;
+}
+
+.options-menu-grid-size-slider {
+  bottom: 11.5%;
+}
+
+.options-menu-difficulties {
+  bottom: 42.5%;
+  left: 46%;
+  position: absolute;
+}
+
+.difficulty-div {
+  border-radius: 5px;
+  bottom: 42%;
+  height: 29%;
+  position: absolute;
+  width: 18%;
+}
+
+.selected-difficulty {
+  -moz-box-shadow:    4px 5px 4px 1px teal;
+  -webkit-box-shadow: 4px 5px 4px 1px teal;
+  box-shadow:         4px 5px 4px 1px teal;
+  border-width: 1px;
+  border-color: teal;
+}
+
+.options-swallowtail-div {
+  left: 44%;
+}
+
+.options-luna-div {
+  left: 62%;
+}
+
+.options-monarch-div {
+  left: 81%;
+}
+
+.options-menu-slider-display {
+  color: darkblue;
+  position: absolute;
+  left: 86%;
+  font-weight: bold;
+  font-size: 20px;
+  font-family: Helvetica, sans-serif;
+}
+
+.opts-volume-display {
+  bottom: 76%;
+}
+
+.opts-start-speed-display {
+  bottom: 29.5%;
+
+}
+
+.opts-speed-gain-display {
+  bottom: 20%;
+
+}
+
+.opts-grid-size-display {
+  bottom: 10.5%;
 }
 
 .options-menu-back-link {
@@ -115,6 +204,10 @@
 .gridspace.apple {
   opacity: 1;
   background-color: red;
+}
+
+.player-pillar {
+  border-radius: 5px;
 }
 
 .luna .color1 {
@@ -154,9 +247,12 @@
 }
 
 .score-holder {
-  font-size: 18px;
-  color: teal;
+  font-size: 14pt;
+  font-weight: bold;
+  color: black;
   position: absolute;
+  top: 3%;
+  left: 4%;
 }
 
 .select-motif {
@@ -203,21 +299,18 @@
 }
 
 .options-motif {
-  height: 5%;
   width: 47%;
   bottom: 34.7%;
   left: 26.5%;
 }
 
 .help-motif {
-  height: 5%;
   width: 38%;
   bottom: 25.7%;
   left: 31%;
 }
 
 .about-motif {
-  height: 5%;
   width: 41.5%;
   bottom: 17%;
   left: 29.5%;

@@ -1,0 +1,79 @@
+Originally, the Pillar module coded for a caterpillar (player) with one color.
+
+space[2] didn't exist, and all spaces the caterpillar occupied were simply coded to green.
+
+I then created space[2], which contained the color code. This shifted between two states, light and dark caterpillar. The board took on the value of the state so that color could be known by the UI. I foolishly pushed apple to a board value of three (originally 2), making one and two the states for dark and light.
+
+This wasn't scaleable. What if I needed an arbitrary number of more colors? So I moved apple to state 1, while other states could be added between that and the colors and the color indices pushed forward.
+
+Now I ran into an OOP design problem. The game UI relied on knowing the state of the board, while the board pulled player state from the player object. While this worked fine in earlier iterations, it would not work for when I needed caterpillars that had a long and changing list of colors.
+
+So I decided to scrap space[2] and instead have the board assign to each caterpillar-occupying space that space's index within the caterpillar's space queue array, going backwards. For example:
+
+Pillar.spaces == [[0,1],[0,2],[0,3]];
+
+Since this is a FIFO queue, that means the caterpillar's head is at 0,3. ForEach works from the back of the queue to the front. But this isn't an issue:
+
+Pillar.spaces.length - 0 = 3; it's the third from the head. And because the board uses 1 as the apple placeholder, I can simply add 1 to get the color code I will use.
+
+[[0,1],[0,2],[0,3]];
+
+4, 3, 2
+
+Then I can set a variable in the display UI and a class in the HTML to be the player's preferred caterpillar type, which will set the colors based on the value received. Mod division will jump back to the color pattern as I see fit.
+
+Example:
+
+JS:
+
+$gameBoard.addClass(PillarUI.options.pillarType);
+
+// (board layout iteration code)
+
+var num = board[y][x] % PillarUI.options.pillarColorNumber;
+var determiner = num > 1 ? "color" : num
+
+// remove all classes
+switch () {
+  case 0:
+    // add no class
+  case 1:
+    // add apple class
+  case "color:
+    currentgridspace.addClass("color" + (num - 1))
+}
+
+HTML (from JS):
+
+<table class="game-board monarch"></table>
+
+CSS:
+
+.game-board .monarch .color1 {
+  background-color: yellow;
+}
+
+.game-board .monarch .color2 {
+  background-color: black;
+}
+
+.game-board .monarch .color3 {
+  background-color: white;
+}
+
+
+=====
+
+More problems:
+
+I wanted to push Pillar to production. But Heroku requires that you have a framework. What I needed to do was integrate Pillar with Rails.
+
+This basically required me to stick all of the javascripts I used in either vendor/assets/js and css and in app/assets etc. The asset pipeline would then load all of Pillar's logic and styling along with every other code that might be used on my portfolio website. At the moment, this isn't a problem, but my original attempt to get Pillar's code to load only on the page using custom manifestos did not go so well, the assets invariably failing to precompile.
+
+I did manage to get this to work. For future reference, everything I need to do prior to trying to push a Heroku app to production from windows is as follows:
+
+- Add the appropriate gems first. Change SQLITE to PG.
+- Change database YML config to PG instead of SQLITE.
+- In application.rb, config.assets.initialize_on_precompile = false
+- In production.rb, config.assets.compile = true
+- In application.css/js, add all new stylesheets and javascripts
