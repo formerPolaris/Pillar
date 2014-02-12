@@ -294,6 +294,7 @@
       };
 
       var tryLoad = function() {
+        var images = PillarUI.imagesHash;
         if (document.getElementsByClassName("main-menu-image")[0].complete) {
           PillarUI.mainMenuView.resize(function() {
             PillarUI.swapView(PillarUI.mainMenuView, [
