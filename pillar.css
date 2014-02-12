@@ -1,18 +1,59 @@
 .pillar-game {
-  -moz-user-select: -moz-none;
-   -khtml-user-select: none;
-    -webkit-user-select: none;
-     -o-user-select: none;
-      user-select: none;
+  -webkit-user-select: -moz-none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+       -o-user-select: none;
+          user-select: none;
 }
 
 .pillar-logo-img {
   position: absolute;
-    -moz-transition: width .5s ease-in-out;
-    -webkit-transition: width .5s ease-in-out;
-    -moz-transition: width .5s ease-in-out;
-    -o-transition: width .5s ease-in-out;
-    transition: width .5s ease-in-out;
+  -webkit-transform: scale(.5);
+     -moz-transform: scale(.5);
+      -ms-transform: scale(.5);
+       -o-transform: scale(.5);
+          transform: scale(.5);
+  opacity: 1;
+  -webkit-transition: transform .375s ease-in-out;
+     -moz-transition: transform .375s ease-in-out;
+      -ms-transition: transform .375s ease-in-out;
+       -o-transition: transform .375s ease-in-out;
+          transition: transform .375s ease-in-out;
+}
+
+.apostrophe-img {
+  right: 81%;
+  top: 13.8%;
+}
+
+.p-img {
+  right: 58%;
+  top: 4.8%;
+}
+
+.i-img {
+  right: 54.4%;
+  top: 3.8%;
+}
+
+.l1-img {
+  right: 41.5%;
+  top: 5.4%;
+}
+
+.l2-img {
+  right: 37.6%;
+  top: 6.3%;
+}
+
+.a-img {
+  top: 16.1%;
+  right: 22.6%;
+}
+
+.r-img {
+  right: 15.4%;
+  top: 10.5%;
 }
 
 .main-menu-div {
@@ -121,30 +162,30 @@
 
 .difficulty-div {
   border-radius: 5px;
-  bottom: 42%;
+  bottom: 41.5%;
   height: 29%;
   position: absolute;
-  width: 18%;
+  width: 17%;
 }
 
 .selected-difficulty {
-  -moz-box-shadow:    4px 5px 4px 1px teal;
-  -webkit-box-shadow: 4px 5px 4px 1px teal;
-  box-shadow:         4px 5px 4px 1px teal;
+   -webkit-box-shadow: 4px 5px 4px 1px teal;
+      -moz-box-shadow: 4px 5px 4px 1px teal;
+           box-shadow: 4px 5px 4px 1px teal;
+  border: solid grey;
   border-width: 1px;
-  border-color: teal;
 }
 
 .options-swallowtail-div {
-  left: 44%;
+  left: 44.4%;
 }
 
 .options-luna-div {
-  left: 62%;
+  left: 62.9%;
 }
 
 .options-monarch-div {
-  left: 81%;
+  left: 81.5%;
 }
 
 .options-menu-slider-display {
@@ -258,21 +299,21 @@
 .select-motif {
   position: absolute;
   opacity: 0;
-    -webkit-transition: opacity .2s ease-out;
-   -moz-transition: opacity .2s ease-out;
-    -ms-transition: opacity .2s ease-out;
-     -o-transition: opacity .2s ease-out;
-        transition: opacity .2s ease-out;
+  -webkit-transition: opacity .2s ease-out;
+     -moz-transition: opacity .2s ease-out;
+      -ms-transition: opacity .2s ease-out;
+       -o-transition: opacity .2s ease-out;
+          transition: opacity .2s ease-out;
 }
 
 .select-motif.active {
   position: absolute;
   opacity: 1;
   -webkit-transition: opacity .2s ease-in;
-   -moz-transition: opacity .2s ease-in;
-    -ms-transition: opacity .2s ease-in;
-     -o-transition: opacity .2s ease-in;
-        transition: opacity .2s ease-in;
+     -moz-transition: opacity .2s ease-in;
+      -ms-transition: opacity .2s ease-in;
+       -o-transition: opacity .2s ease-in;
+          transition: opacity .2s ease-in;
 
 }
 
@@ -284,11 +325,11 @@
   float: right;
 
   -webkit-transform: scaleX(-1);
-   -moz-transform: scaleX(-1);
-    -ms-filter: "FlipH";
-     -o-transform: scaleX(-1);
-      transform: scaleX(-1);
-       filter: FlipH;
+     -moz-transform: scaleX(-1);
+      -ms-filter: "FlipH";
+       -o-transform: scaleX(-1);
+          transform: scaleX(-1);
+          filter: FlipH;
 }
 
 .new-game-motif {

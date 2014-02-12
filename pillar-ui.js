@@ -1,7 +1,7 @@
 (function(root) {
   var PillarUI = root.PillarUI = (root.PillarUI || {});
   var nextTabIndex = PillarUI.nextTabIndex = 0;
-  var setTabIndex = PillarUI.setTabIndex = function () {
+  var setTabIndex = PillarUI.setTabIndex = function() {
     nextTabIndex++;
     return nextTabIndex - 1;
   };
@@ -34,7 +34,7 @@
       $("." + PillarUI.mainMenuSelection + "-motif").addClass("active");
     }
   };
-  var makeSelection = PillarUI.makeSelection = function () {
+  var makeSelection = PillarUI.makeSelection = function() {
     switch (PillarUI.mainMenuSelection) {
       case "new-game":
         PillarUI.initializeBoard();
@@ -150,13 +150,60 @@
         });
       };
 
+      mainMenuView.logoArray = [
+        $apostropheImg,
+        $pImg,
+        $iImg,
+        $l1Img,
+        $l2Img,
+        $aImg,
+        $rImg,
+        $appleBiteImg,
+      ];
+
+      mainMenuView.startLogoAnimate = function(letterIndex) {
+        if (letterIndex === undefined) {
+          var letterIndex = 0;
+        }
+        if (PillarUI.mainMenuView.logoArray[letterIndex] === undefined) {
+          PillarUI.mainMenuView.repeatLogoAnimate();
+        } else {
+          PillarUI.mainMenuView.logoArray[letterIndex].css({
+              "-webkit-transform": "scale(.6)",
+                 "-moz-transform": "scale(.6)",
+                  "-ms-transform": "scale(.6)",
+                   "-o-transform": "scale(.6)",
+                      "transform": "scale(.6)"
+            });
+            window.setTimeout(function() {
+              PillarUI.mainMenuView.logoArray[letterIndex].css({
+                "-webkit-transform": "scale(.5)",
+                   "-moz-transform": "scale(.5)",
+                    "-ms-transform": "scale(.5)",
+                     "-o-transform": "scale(.5)",
+                        "transform": "scale(.5)"
+              });
+            }, 375);
+            window.setTimeout(function() {
+              PillarUI.mainMenuView.startLogoAnimate(letterIndex + 1)
+            }, 250);
+        }
+      };
+
+      mainMenuView.repeatLogoAnimate = function() {
+        window.setTimeout(function() {
+          PillarUI.mainMenuView.startLogoAnimate(0);
+        }, 5000);
+      }
+
       var tryLoad = function() {
         if (document.getElementsByClassName("main-menu-image")[0].complete) {
-          PillarUI.mainMenuView.resize(function () {
+          PillarUI.mainMenuView.resize(function() {
             PillarUI.swapView(PillarUI.mainMenuView, [
               PillarUI.mainMenuView.spawnLinksAndMotifs,
               PillarUI.initMenuControls, 
-              PillarUI.bindMenuEvents
+              PillarUI.bindMenuEvents,
+              PillarUI.mainMenuView.startLogoAnimate
             ]);
           });
         } else {
@@ -170,7 +217,8 @@
       PillarUI.swapView(
         PillarUI.mainMenuView, [
         PillarUI.initMenuControls,
-        PillarUI.bindMenuEvents
+        PillarUI.bindMenuEvents,
+        PillarUI.mainMenuView.startLogoAnimate
       ]);
     }
   };
@@ -255,7 +303,7 @@
     maxGameSpeed: 80,
     volume: 100,
     pillarType: "luna",
-    pillarColorNumber: function () {
+    pillarColorNumber: function() {
       switch(this.pillarType) {
         case "swallowtail":
           return 2;
@@ -268,7 +316,7 @@
   };
 
   var initializeOptionsMenu = PillarUI.initializeOptionsMenu = function() {
-    if(PillarUI.optionsMenuView === undefined) {
+    if (PillarUI.optionsMenuView === undefined) {
       var $optionsMenuDiv = PillarUI.$optionsMenuDiv = jQuery("<div/>", {
         class: "options-menu-div",
         tabIndex: setTabIndex()
@@ -304,7 +352,7 @@
         optionsMenuView.$swallowtailDiv,
         optionsMenuView.$lunaDiv,
         optionsMenuView.$monarchDiv
-      ].forEach(function (div) {
+      ].forEach(function(div) {
         optionsMenuView.loadElement(div);
       });
       
@@ -351,19 +399,19 @@
       $speedGainSliderDisplay.text(options.gameSpeedGain + " ms");
       $gridSizeSliderDisplay.text(options.xGridSize + "x" + options.xGridSize);
 
-      optionsMenuView.resetVolumeSlider = function () {
+      optionsMenuView.resetVolumeSlider = function() {
         $volumeSlider.hasClass("ui-slider") && $volumeSlider.slider("destroy");
         $volumeSlider.slider({
           range: "min",
           value: PillarUI.options.volume,
           min: 0,
           max: 100,
-          slide: function (event, ui) {
+          slide: function(event, ui) {
             $volumeSliderDisplay.text(ui.value);
           },
-          stop: function (event, ui) {
+          stop: function(event, ui) {
             PillarUI.options.volume = ui.value;
-            PillarUI.soundsArray.forEach(function (sound) {
+            PillarUI.soundsArray.forEach(function(sound) {
               soundManager.setVolume(sound.id, PillarUI.options.volume);
             });
             soundManager.play("applebite1");
@@ -371,51 +419,51 @@
         })
       };
 
-      optionsMenuView.resetStartSpeedSlider = function () {
+      optionsMenuView.resetStartSpeedSlider = function() {
         $startSpeedSlider.hasClass("ui-slider") && $startSpeedSlider.slider("destroy");
         $startSpeedSlider.slider({
           range: "min",
           value: PillarUI.options.gameSpeed,
           min: 100,
           max: 200,
-          slide: function (event, ui) {
+          slide: function(event, ui) {
             $startSpeedSliderDisplay.text(ui.value + " ms");
           },
-          stop: function (event, ui) {
+          stop: function(event, ui) {
             PillarUI.options.gameSpeed = ui.value;
             optionsMenuView.checkDifficulty();
           }
         })
       };
 
-      optionsMenuView.resetSpeedGainSlider = function () {
+      optionsMenuView.resetSpeedGainSlider = function() {
         $speedGainSlider.hasClass("ui-slider") && $speedGainSlider.slider("destroy");
         $speedGainSlider.slider({
           range: "min",
           value: PillarUI.options.gameSpeedGain,
           min: 3,
           max: 10,
-          slide: function (event, ui) {
+          slide: function(event, ui) {
             $speedGainSliderDisplay.text(ui.value + " ms");
           },
-          stop: function (event, ui) {
+          stop: function(event, ui) {
             PillarUI.options.gameSpeedGain = ui.value;
             optionsMenuView.checkDifficulty();
           }
         })
       };
 
-      optionsMenuView.resetGridSizeSlider = function () {
+      optionsMenuView.resetGridSizeSlider = function() {
         $gridSizeSlider.hasClass("ui-slider") && $gridSizeSlider.slider("destroy");
         $gridSizeSlider.slider({
           range: "min",
           value: PillarUI.options.xGridSize,
           min: 8,
           max: 15,
-          slide: function (event, ui) {
+          slide: function(event, ui) {
             $gridSizeSliderDisplay.text(ui.value + "x" + ui.value);
           },
-          stop: function (event, ui) {
+          stop: function(event, ui) {
             PillarUI.options.xGridSize = ui.value;
             PillarUI.options.yGridSize = ui.value;
             optionsMenuView.checkDifficulty();
@@ -440,16 +488,16 @@
       optionsMenuView.loadElement($speedGainSliderDisplay);
       optionsMenuView.loadElement($gridSizeSliderDisplay);
 
-      optionsMenuView.checkDifficulty = function () {
+      optionsMenuView.checkDifficulty = function() {
         var speed = PillarUI.options.gameSpeed;
         var speedGain = PillarUI.options.gameSpeedGain;
         var gridSize = PillarUI.options.xGridSize;
         if (speed <= 135 && speedGain >= 7 && gridSize < 10) {
           PillarUI.options.pillarType = "monarch";
           optionsMenuView.displayDifficulty(optionsMenuView.$monarchDiv);
-        } else if (speed > 135 && speed <= 170 &&
-          speedGain < 7 && speedGain >= 5 &&
-          gridSize >= 10 && gridSize <= 12) {
+        } else if ((speed > 135 && speed <= 170) ||
+          (speedGain < 7 && speedGain >= 5) ||
+          (gridSize >= 10 && gridSize <= 12)) {
           PillarUI.options.pillarType = "luna";
           optionsMenuView.displayDifficulty(optionsMenuView.$lunaDiv);
         } else {
@@ -461,11 +509,12 @@
     PillarUI.swapView(PillarUI.optionsMenuView, [
       bindEscToBack,
       bindOptionsMenuEvents,
-      PillarUI.optionsMenuView.resetAllSliders
+      PillarUI.optionsMenuView.resetAllSliders,
+      optionsMenuView.checkDifficulty(),
     ]);
   };
   
-  var bindOptionsMenuEvents = PillarUI.bindOptionsMenuEvents = function () {
+  var bindOptionsMenuEvents = PillarUI.bindOptionsMenuEvents = function() {
     $(".options-menu-back-link").click(function(event) {
       event.preventDefault();
       PillarUI.initializeMenu();
@@ -473,7 +522,7 @@
   };
 
   var initializeAbout = PillarUI.initializeAbout = function() {
-    if(PillarUI.aboutView === undefined) {
+    if (PillarUI.aboutView === undefined) {
       var $aboutDiv = PillarUI.$aboutDiv = jQuery("<div/>", {
         class: "about-div",
         tabIndex: setTabIndex()
@@ -498,7 +547,7 @@
       aboutView.createLink("about-back").addClass("pillar-link");
       aboutView.createLink("polaris").addClass("pillar-link");
 
-      aboutView.flashLink = function () {
+      aboutView.flashLink = function() {
         $(".polaris-link").css({
           "background-color": "blue",
           "opacity": .5
@@ -510,7 +559,7 @@
     PillarUI.swapView(PillarUI.aboutView, [bindEscToBack, bindAboutEvents, PillarUI.aboutView.flashLink]);
   };
 
-  var bindAboutEvents = PillarUI.bindAboutEvents = function () {
+  var bindAboutEvents = PillarUI.bindAboutEvents = function() {
     $(".about-back-link").click(function(event) {
       event.preventDefault();
       PillarUI.initializeMenu();
@@ -522,7 +571,7 @@
   };
 
   var initializeHelp = PillarUI.initializeHelp = function() {
-    if(PillarUI.helpView === undefined) {
+    if (PillarUI.helpView === undefined) {
       var $helpDiv = PillarUI.$helpDiv = jQuery("<div/>", {
         class: "help-div",
         tabIndex: setTabIndex()
@@ -549,7 +598,7 @@
     PillarUI.swapView(PillarUI.helpView, [bindEscToBack, bindHelpEvents]);
   };
 
-  var bindHelpEvents = PillarUI.bindHelpEvents = function () {
+  var bindHelpEvents = PillarUI.bindHelpEvents = function() {
     $(".help-back-link").click(function(event) {
       event.preventDefault();
       PillarUI.initializeMenu();
@@ -557,7 +606,7 @@
   };
   var displayedScore = PillarUI.displayedScore = 0;
 
-  var bindEscToBack = PillarUI.bindEscToBack = function () {
+  var bindEscToBack = PillarUI.bindEscToBack = function() {
     PillarUI.currentView.parent.keydown(function(e) {
       e.preventDefault();
       if (e.keyCode == 27) {
@@ -653,7 +702,7 @@
 
   var updateBoard = PillarUI.updateBoard = function(board, gameScore) {
     for (var y = 0; y < board.length; y++) {
-      for(var x = 0; x < board[0].length; x++) {
+      for (var x = 0; x < board[0].length; x++) {
         var currentElement = PillarUI.elementGrid[y][x];
         currentElement.attr("class", "gridspace");
         var num;
@@ -726,11 +775,11 @@ $(document).ready(function() {
           });
           console.log(this.numberPlays);
         },
-        onfinish: function () {
+        onfinish: function() {
           this.numberPlays -= 1;
           console.log(this.numberPlays);
         },
-        onstop: function () {
+        onstop: function() {
           this.numberPlays -= 1;
           console.log(this.numberPlays);
         },

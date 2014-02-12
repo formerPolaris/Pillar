@@ -4,7 +4,7 @@ function CView (parent, target, visible, jQElements) {
   this.parentDisplay = parent.css("display");
   this.parentPosition = parent.css("position");
   this.elements = [];
-  for(element in jQElements) {
+  for (element in jQElements) {
     this.elements.push(element);
   }
   if (!this.visible) {
@@ -39,11 +39,11 @@ CView.prototype.showView = function(callbacks) {
     "opacity": 1
   }, {
     duration: 1000,
-    complete: function () {
+    complete: function() {
       that.parent.css({
         "position": this.parentPosition
       });
-      callbacks && callbacks.forEach(function (callback) {
+      callbacks && callbacks.forEach(function(callback) {
         callback();
       });
     }
@@ -53,7 +53,7 @@ CView.prototype.showView = function(callbacks) {
 CView.prototype.hideView = function(callbacks) {
   this.visible = false;
   this.parent.off();
-  this.elements.forEach(function (element) {
+  this.elements.forEach(function(element) {
     element.off();
   });
   this.parent.css({
@@ -64,9 +64,9 @@ CView.prototype.hideView = function(callbacks) {
     "opacity": 0
   }, {
     duration: 1000,
-    complete: function () {
+    complete: function() {
       that.parent.css({"display": "none"});
-      callbacks && callbacks.forEach(function (callback) {
+      callbacks && callbacks.forEach(function(callback) {
         callback();
       });
     }
@@ -74,7 +74,7 @@ CView.prototype.hideView = function(callbacks) {
 };
 
 CView.prototype.destroy = function() {
-  this.elements.forEach(function (element) {
+  this.elements.forEach(function(element) {
     element.off();
     element.remove();
   });

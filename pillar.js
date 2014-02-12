@@ -56,7 +56,7 @@
         var currentColor = player.spaces.length - colorOffset;
 
         if (that.layout[currentY][currentX] == 1) {
-          if(options.gameSpeed > options.maxGameSpeed) {
+          if (options.gameSpeed > options.maxGameSpeed) {
             options.gameSpeed -= options.gameSpeedGain;
             if (options.gameSpeed < options.maxGameSpeed){
               options.gameSpeed = options.maxGameSpeed;
@@ -72,7 +72,7 @@
         colorOffset++;
       });
 
-      if(!this.hasApple) {
+      if (!this.hasApple) {
         this.spawnApple();
       }
     },
@@ -91,7 +91,7 @@
 
     display: function(callback) {
       var that = this;
-      callback || (function () {
+      callback || (function() {
         for (var i = 0; i < that.layout.length; i++) {
           for (var j = 0; j < that.layout[0].length; j++) {
             console.log(that.layout[j][i]);
