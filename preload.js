@@ -75,10 +75,14 @@ $(document).ready(function() {
       src: "https://s3-us-west-1.amazonaws.com/polaris-pillar-main/pillar-help.png"
     }),
 
-    // cache background
+    // cache game background/foreground
     $background: jQuery("<img/>",{
       src: "https://s3-us-west-1.amazonaws.com/polaris-pillar-main/leaflitter.png"
     }),
+    $foreground: jQuery("<img/>",{
+      class: "pillar-game-foreground",
+      src: "https://s3-us-west-1.amazonaws.com/polaris-pillar-main/leaflitter.png"
+    })
   };
 
   PillarUI.soundsArray = new Array;
@@ -157,7 +161,16 @@ $(document).ready(function() {
   });
 
   var tryLoad = function() {
-    if (PillarUI.soundsArray.length == 4) {
+    var imagesLoaded = function() {
+      $.each(PillarUI.imagesHash, function(index,value) {
+        console.log(value.get()[0].complete)
+        if(!value.get()[0].complete) {
+          return false;
+        }
+      });
+      return true;
+    } 
+    if(imagesLoaded() && PillarUI.soundsArray.length == 4) {
       PillarUI.initializeMenu();
     } else {
       setTimeout(function() {

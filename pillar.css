@@ -295,6 +295,10 @@
   overflow: hidden;
 }
 
+.pillar-game-foreground {
+  opacity: .2;
+}
+
 .gridspace.clear {
   opacity: 0;
 }
