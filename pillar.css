@@ -4,6 +4,56 @@
       -ms-user-select: none;
        -o-user-select: none;
           user-select: none;
+  background-color: #ffff8b;
+}
+
+.pillar-loading-container {
+  width: 550px;
+  height: 550px;
+  background-color: lightgrey;
+  position: relative;
+}
+
+.pillar-loading-text {
+  color: darkgrey;
+  text-align: center;
+  position:relative;
+  top: 35%;
+  font-size: 58pt;
+  font-weight: bold;
+}
+
+.pillar-ellipsis {
+  border-radius: 50%;
+  width: 8%;
+  height: 8%;
+  position: absolute;
+  bottom: 40%;
+  -webkit-transition: transform .375s ease-in-out;
+     -moz-transition: transform .375s ease-in-out;
+      -ms-transition: transform .375s ease-in-out;
+       -o-transition: transform .375s ease-in-out;
+          transition: transform .375s ease-in-out;
+}
+
+.pillar-ellipsis.teal-ellipsis-one {
+  background-color: teal;
+  left: 28%;
+}
+
+.pillar-ellipsis.green-ellipsis-one {
+  background-color: green;
+  left: 40%;
+}
+
+.pillar-ellipsis.teal-ellipsis-two {
+  background-color: teal;
+  left: 52%;
+}
+
+.pillar-ellipsis.green-ellipsis-two {
+  background-color: green;
+  left: 64%;
 }
 
 .pillar-logo-img {
@@ -19,6 +69,12 @@
       -ms-transition: transform .375s ease-in-out;
        -o-transition: transform .375s ease-in-out;
           transition: transform .375s ease-in-out;
+}
+
+.apple-img {
+  position: absolute;
+  right: 12%;
+  top: 18.1%;
 }
 
 .apostrophe-img {
@@ -165,7 +221,8 @@
   bottom: 41.5%;
   height: 29%;
   position: absolute;
-  width: 17%;
+  width: 15.5%;
+  cursor: pointer;
 }
 
 .selected-difficulty {
@@ -177,15 +234,15 @@
 }
 
 .options-swallowtail-div {
-  left: 44.4%;
+  left: 45.15%;
 }
 
 .options-luna-div {
-  left: 62.9%;
+  left: 63.65%;
 }
 
 .options-monarch-div {
-  left: 81.5%;
+  left: 81.15%;
 }
 
 .options-menu-slider-display {
@@ -248,7 +305,7 @@
 }
 
 .player-pillar {
-  border-radius: 5px;
+  border-radius: 10%;
 }
 
 .luna .color1 {
@@ -290,7 +347,7 @@
 .score-holder {
   font-size: 14pt;
   font-weight: bold;
-  color: black;
+  color: white;
   position: absolute;
   top: 3%;
   left: 4%;

@@ -8,15 +8,13 @@
       this.gameSpeed = optionsHash.gameSpeed;
       this.maxGameSpeed = optionsHash.maxGameSpeed;
       this.gameSpeedGain = optionsHash.gameSpeedGain;
-      this.sound = optionsHash.sound;
     },
     setDefaults: function() { // Assuming no UI plugged in
       this.xGridSize = 12,
       this.yGridSize = 12,
       this.gameSpeed = 150,
       this.maxGameSpeed = 80,
-      this.gameSpeedGain = 5,
-      this.sound = 100
+      this.gameSpeedGain = 5
     }
   };
 

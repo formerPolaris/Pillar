@@ -1,5 +1,6 @@
 (function(root) {
   var PillarUI = root.PillarUI = (root.PillarUI || {});
+  var $gameContainer = PillarUI.$gameContainer = $(".pillar-game");
   var nextTabIndex = PillarUI.nextTabIndex = 0;
   var setTabIndex = PillarUI.setTabIndex = function() {
     nextTabIndex++;
@@ -7,10 +8,10 @@
   };
 
   var currentView = PillarUI.currentView = null;
-  var swapView = PillarUI.swapView = function(view, callbacks) {
-    PillarUI.currentView && PillarUI.currentView.hideView(); // also unbinds event listeners
+  var swapView = PillarUI.swapView = function(view, showCallbacks, hideCallbacks) {
+    PillarUI.currentView && PillarUI.currentView.hideView(hideCallbacks); // also unbinds event listeners
     PillarUI.currentView = view;
-    view.showView(callbacks);
+    view.showView(showCallbacks);
   };
 
   var mainMenuSelectables = PillarUI.mainMenuSelectables = [
@@ -51,7 +52,17 @@
       default:
         return;
     }
-  }
+  };
+
+  PillarUI.rescaleImage = function(element, scale) {
+    element.css({
+      "-webkit-transform": "scale(" + scale + ")",
+         "-moz-transform": "scale(" + scale + ")",
+          "-ms-transform": "scale(" + scale + ")",
+           "-o-transform": "scale(" + scale + ")",
+              "transform": "scale(" + scale + ")"
+    });
+  };
 
   // General structure:
   // Element constructor/recycler
@@ -59,9 +70,99 @@
   // Event binder
   // Will probably separate these into multiple files
 
+  var initializeLoadingView = PillarUI.initializeLoadingView = function() {
+    if(PillarUI.loadingView === undefined) {
+      $loader = jQuery("<div/>", {
+        class: "pillar-loading-container"
+      });
+
+      PillarUI.$gameContainer.css({
+        "height": $loader.height(),
+        "width": $loader.width()
+      });
+
+      var loadingView = PillarUI.loadingView = new CView($loader, $gameContainer, true);
+
+      var $loadingText = jQuery("<div/>", {
+        class: "pillar-loading-text"
+      });
+      $loadingText.text("Loading")
+
+      var $tealEllipsis1 = jQuery("<div/>", {
+        class: "pillar-ellipsis teal-ellipsis-one"
+      });
+      var $tealEllipsis2 = jQuery("<div/>", {
+        class: "pillar-ellipsis teal-ellipsis-two"
+      });
+      var $greenEllipsis1 = jQuery("<div/>", {
+        class: "pillar-ellipsis green-ellipsis-one"
+      });
+      var $greenEllipsis2 = jQuery("<div/>", {
+        class: "pillar-ellipsis green-ellipsis-two"
+      });
+
+      loadingView.loadElement($loadingText);
+
+      loadingView.loadElement($tealEllipsis1);
+      loadingView.loadElement($tealEllipsis2);
+      loadingView.loadElement($greenEllipsis1);
+      loadingView.loadElement($greenEllipsis2);
+
+      loadingView.ellipses = [
+        $tealEllipsis1,
+        $greenEllipsis1,
+        $tealEllipsis2,
+        $greenEllipsis2
+      ];
+
+      loadingView.animateLoad = function(ellipsisIndex) {
+        if (ellipsisIndex >= PillarUI.loadingView.ellipses.length &&
+          loadingView.visible) {
+          PillarUI.loadingView.repeatAnimateLoad();
+        } else if (PillarUI.loadingView.visible) {
+          PillarUI.loadingView.ellipses[ellipsisIndex].css({
+              "-webkit-transform": "scale(1.2)",
+                 "-moz-transform": "scale(1.2)",
+                  "-ms-transform": "scale(1.2)",
+                   "-o-transform": "scale(1.2)",
+                      "transform": "scale(1.2)"
+          });
+          window.setTimeout(function() {
+            PillarUI.rescaleImage(PillarUI.loadingView.ellipses[ellipsisIndex], 1);
+          }, 375);
+          window.setTimeout(function() {
+            PillarUI.loadingView.animateLoad(ellipsisIndex + 1);
+          }, 250);
+        }
+      };
+
+      loadingView.repeatAnimateLoad = function() {
+        PillarUI.loadingView.animationTimeOut = window.setTimeout(function() {
+          PillarUI.loadingView.animateLoad(0);
+        }, 750);
+      };
+
+      loadingView.stopAnimateLoad = function() {
+        var that = this;
+        clearTimeout(PillarUI.loadingView.animationTimeOut);
+        PillarUI.loadingView.ellipses.forEach(function (element) {
+          PillarUI.rescaleImage(element, 1);
+        });
+      };
+
+      loadingView.hideView = function() { // Override prototype hideview to call special animation stops
+        CView.prototype.hideView.call(this, (this, [
+          this.stopAnimateLoad
+        ]));
+      };
+    }
+    PillarUI.swapView(PillarUI.loadingView, [
+      function() { PillarUI.loadingView.animateLoad(0) }
+    ]);
+  };
+
   var initializeMenu = PillarUI.initializeMenu = function() {
     if (PillarUI.mainMenuView === undefined) {
-      PillarUI.$gameContainer = $(".pillar-game");
       var $mainMenuDiv = jQuery("<div/>", {
         class: "main-menu-div",
         tabIndex: setTabIndex()
@@ -73,42 +174,18 @@
         false
       );
 
-      mainMenuView.loadElement(jQuery("<img/>", {
-        class: "main-menu-image",
-        src: "https://s3-us-west-1.amazonaws.com/polaris-pillar-main/pillar-main-menu.png"
-      }));
+      var images = PillarUI.imagesHash;
 
-      $apostropheImg = mainMenuView.loadElement(jQuery("<img/>", {
-        class: "apostrophe-img pillar-logo-img",
-        src: "https://s3-us-west-1.amazonaws.com/polaris-pillar-main/logo/apostrophe.png"
-      }));
-      $pImg = mainMenuView.loadElement(jQuery("<img/>", {
-        class: "p-img pillar-logo-img",
-        src: "https://s3-us-west-1.amazonaws.com/polaris-pillar-main/logo/p.png"
-      }));
-      $iImg = mainMenuView.loadElement(jQuery("<img/>", {
-        class: "i-img pillar-logo-img",
-        src: "https://s3-us-west-1.amazonaws.com/polaris-pillar-main/logo/i.png"
-      }));
-      $l1Img = mainMenuView.loadElement(jQuery("<img/>", {
-        class: "l1-img pillar-logo-img",
-        src: "https://s3-us-west-1.amazonaws.com/polaris-pillar-main/logo/l1.png"
-      }));
-      $l2Img = mainMenuView.loadElement(jQuery("<img/>", {
-        class: "l2-img pillar-logo-img",
-        src: "https://s3-us-west-1.amazonaws.com/polaris-pillar-main/logo/l2.png"
-      }));
-      $aImg = mainMenuView.loadElement(jQuery("<img/>", {
-        class: "a-img pillar-logo-img",
-        src: "https://s3-us-west-1.amazonaws.com/polaris-pillar-main/logo/a.png"
-      }));
-      $rImg = mainMenuView.loadElement(jQuery("<img/>", {
-        class: "r-img pillar-logo-img",
-        src: "https://s3-us-west-1.amazonaws.com/polaris-pillar-main/logo/r.png"
-      }));
-      $appleBiteImg = mainMenuView.loadElement(jQuery("<img/>", {
-        class: "apple-bite-img pillar-logo-img"
-      }));
+      mainMenuView.$mainMenuImg = mainMenuView.loadElement(images.$mainMenuImg);
+
+      mainMenuView.$apostropheImg = mainMenuView.loadElement(images.$apostropheImg);
+      mainMenuView.$pImg = mainMenuView.loadElement(images.$pImg);
+      mainMenuView.$iImg = mainMenuView.loadElement(images.$iImg);
+      mainMenuView.$l1Img = mainMenuView.loadElement(images.$l1Img);
+      mainMenuView.$l2Img = mainMenuView.loadElement(images.$l2Img);
+      mainMenuView.$aImg = mainMenuView.loadElement(images.$aImg);
+      mainMenuView.$rImg = mainMenuView.loadElement(images.$rImg);
+      mainMenuView.$appleImg = mainMenuView.loadElement(images.$appleImg);
 
       mainMenuView.resize = function(callback) {
         this.parent.css({
@@ -116,8 +193,8 @@
           "height": 0,
           "width": 0
         });
-        var imageH = $("img.main-menu-image").height();
-        var imageW = $("img.main-menu-image").width();
+        var imageH = PillarUI.mainMenuView.$mainMenuImg.height();
+        var imageW = PillarUI.mainMenuView.$mainMenuImg.width();
         this.parent.css({
           "height": imageH,
           "width": imageW,
@@ -125,8 +202,7 @@
         });
         PillarUI.$gameContainer.css({
           "height": imageH,
-          "width": imageW,
-          "background-color": "#ffff8b"
+          "width": imageW
         });
         callback();
       };
@@ -137,64 +213,85 @@
             class: name + "-motif select-motif"
           }));
 
-          jQuery("<img/>", {
-            class: "left",
-            src: "https://s3-us-west-1.amazonaws.com/polaris-pillar-main/moddedleaf.png"
-          }).appendTo($currentLink);
-
-          jQuery("<img/>", {
-            class: "right",
-            src: "https://s3-us-west-1.amazonaws.com/polaris-pillar-main/moddedleaf.png"
-          }).appendTo($currentLink);
+          var images = PillarUI.imagesHash;
+          images.$leftLeafImg.clone().appendTo($currentLink);
+          images.$rightLeafImg.clone().appendTo($currentLink);
           var $currentElement = mainMenuView.createLink(name).addClass("pillar-link");
         });
       };
 
       mainMenuView.logoArray = [
-        $apostropheImg,
-        $pImg,
-        $iImg,
-        $l1Img,
-        $l2Img,
-        $aImg,
-        $rImg,
-        $appleBiteImg,
+        mainMenuView.$apostropheImg,
+        mainMenuView.$pImg,
+        mainMenuView.$iImg,
+        mainMenuView.$l1Img,
+        mainMenuView.$l2Img,
+        mainMenuView.$aImg,
+        mainMenuView.$rImg
       ];
 
-      mainMenuView.startLogoAnimate = function(letterIndex) {
-        if (letterIndex === undefined) {
-          var letterIndex = 0;
+      mainMenuView.appleEaten = false;
+
+      mainMenuView.eatApple = function () {
+        if (!PillarUI.mainMenuView.appleEaten) {
+          soundManager.play("applebite1");
+          PillarUI.mainMenuView.$appleImg.attr("src", "https://s3-us-west-1.amazonaws.com/polaris-pillar-main/logo-apple-eaten.png");
+          PillarUI.mainMenuView.appleEaten = true;
         }
-        if (PillarUI.mainMenuView.logoArray[letterIndex] === undefined) {
+      };
+
+      mainMenuView.resetApple = function () {
+        if (PillarUI.mainMenuView.appleEaten) {
+          PillarUI.mainMenuView.$appleImg.attr("src", "https://s3-us-west-1.amazonaws.com/polaris-pillar-main/logo-apple-whole.png");
+          PillarUI.mainMenuView.appleEaten = false;
+        }
+      };
+
+      mainMenuView.startLogoAnimate = function(letterIndex) {
+        if (letterIndex >= PillarUI.mainMenuView.logoArray.length &&
+          PillarUI.mainMenuView.visible) {
           PillarUI.mainMenuView.repeatLogoAnimate();
-        } else {
+        } else if (PillarUI.mainMenuView.visible) {
           PillarUI.mainMenuView.logoArray[letterIndex].css({
-              "-webkit-transform": "scale(.6)",
-                 "-moz-transform": "scale(.6)",
-                  "-ms-transform": "scale(.6)",
-                   "-o-transform": "scale(.6)",
-                      "transform": "scale(.6)"
-            });
-            window.setTimeout(function() {
-              PillarUI.mainMenuView.logoArray[letterIndex].css({
-                "-webkit-transform": "scale(.5)",
-                   "-moz-transform": "scale(.5)",
-                    "-ms-transform": "scale(.5)",
-                     "-o-transform": "scale(.5)",
-                        "transform": "scale(.5)"
-              });
-            }, 375);
-            window.setTimeout(function() {
-              PillarUI.mainMenuView.startLogoAnimate(letterIndex + 1)
-            }, 250);
+              "-webkit-transform": "scale(.65)",
+                 "-moz-transform": "scale(.65)",
+                  "-ms-transform": "scale(.65)",
+                   "-o-transform": "scale(.65)",
+                      "transform": "scale(.65)"
+          });
+          window.setTimeout(function() {
+            if (letterIndex == PillarUI.mainMenuView.logoArray.length - 1 &&
+              PillarUI.mainMenuView.visible) {
+              PillarUI.mainMenuView.eatApple();
+            }
+            PillarUI.rescaleImage(PillarUI.mainMenuView.logoArray[letterIndex], .5);
+          }, 375);
+          window.setTimeout(function() {
+            PillarUI.mainMenuView.startLogoAnimate(letterIndex + 1);
+          }, 250);
         }
       };
 
       mainMenuView.repeatLogoAnimate = function() {
-        window.setTimeout(function() {
+        PillarUI.mainMenuView.animationTimeOut = window.setTimeout(function() {
           PillarUI.mainMenuView.startLogoAnimate(0);
         }, 5000);
-      }
+      };
+
+      mainMenuView.stopLogoAnimate = function() {
+        var that = this;
+        clearTimeout(PillarUI.mainMenuView.animationTimeOut);
+        PillarUI.mainMenuView.logoArray.forEach(function (element) {
+          PillarUI.rescaleImage(element, .5);
+        });
+      };
+
+      mainMenuView.hideView = function() { // Override prototype hideview to call special animation stops
+        CView.prototype.hideView.call(this, (this, [
+          this.stopLogoAnimate, 
+          this.resetApple
+        ]));
+      };
 
       var tryLoad = function() {
         if (document.getElementsByClassName("main-menu-image")[0].complete) {
@@ -203,7 +300,7 @@
               PillarUI.mainMenuView.spawnLinksAndMotifs,
               PillarUI.initMenuControls, 
               PillarUI.bindMenuEvents,
-              PillarUI.mainMenuView.startLogoAnimate
+              function () { PillarUI.mainMenuView.startLogoAnimate(0); }
             ]);
           });
         } else {
@@ -218,7 +315,7 @@
         PillarUI.mainMenuView, [
         PillarUI.initMenuControls,
         PillarUI.bindMenuEvents,
-        PillarUI.mainMenuView.startLogoAnimate
+        function () { PillarUI.mainMenuView.startLogoAnimate(0); }
       ]);
     }
   };
@@ -333,10 +430,11 @@
         false
       );
 
-      optionsMenuView.loadElement(jQuery("<img/>",{
-        class: "options-menu-image",
-        src: "https://s3-us-west-1.amazonaws.com/polaris-pillar-main/pillar-options-menu.png"
-      }));
+      var images = PillarUI.imagesHash;
+      optionsMenuView.$optionsMenuImg = optionsMenuView.loadElement(images.$optionsMenuImg);
+
+      optionsMenuView.$difficultyImg = images.$difficultyImg;
+      optionsMenuView.loadElement(optionsMenuView.$difficultyImg);
 
       optionsMenuView.$swallowtailDiv = jQuery("<div/>", {
         class: "options-swallowtail-div difficulty-div"
@@ -360,11 +458,6 @@
         $(".difficulty-div").removeClass("selected-difficulty");
         div.addClass("selected-difficulty");
       };
-
-      optionsMenuView.loadElement(jQuery("<img/>",{
-        class: "options-menu-difficulties",
-        src: "https://s3-us-west-1.amazonaws.com/polaris-pillar-main/difficulties.png"
-      }));
 
       optionsMenuView.createLink("options-menu-back").addClass("pillar-link");
 
@@ -416,7 +509,7 @@
             });
             soundManager.play("applebite1");
           }
-        })
+        });
       };
 
       optionsMenuView.resetStartSpeedSlider = function() {
@@ -429,9 +522,10 @@
           slide: function(event, ui) {
             $startSpeedSliderDisplay.text(ui.value + " ms");
           },
-          stop: function(event, ui) {
+          change: function(event, ui) {
+            $startSpeedSliderDisplay.text(ui.value + " ms");
             PillarUI.options.gameSpeed = ui.value;
-            optionsMenuView.checkDifficulty();
+            optionsMenuView.changeDifficulty();
           }
         })
       };
@@ -446,9 +540,10 @@
           slide: function(event, ui) {
             $speedGainSliderDisplay.text(ui.value + " ms");
           },
-          stop: function(event, ui) {
+          change: function(event, ui) {
+            $speedGainSliderDisplay.text(ui.value + " ms");
             PillarUI.options.gameSpeedGain = ui.value;
-            optionsMenuView.checkDifficulty();
+            optionsMenuView.changeDifficulty();
           }
         })
       };
@@ -463,10 +558,11 @@
           slide: function(event, ui) {
             $gridSizeSliderDisplay.text(ui.value + "x" + ui.value);
           },
-          stop: function(event, ui) {
+          change: function(event, ui) {
+            $gridSizeSliderDisplay.text(ui.value + "x" + ui.value);
             PillarUI.options.xGridSize = ui.value;
             PillarUI.options.yGridSize = ui.value;
-            optionsMenuView.checkDifficulty();
+            optionsMenuView.changeDifficulty();
           }
         })
       };
@@ -478,26 +574,32 @@
         optionsMenuView.resetGridSizeSlider();
       };
 
-      optionsMenuView.loadElement($volumeSlider);
-      optionsMenuView.loadElement($startSpeedSlider);
-      optionsMenuView.loadElement($speedGainSlider);
-      optionsMenuView.loadElement($gridSizeSlider);
+      optionsMenuView.$volumeSlider = optionsMenuView.loadElement($volumeSlider);
+      optionsMenuView.$startSpeedSlider = optionsMenuView.loadElement($startSpeedSlider);
+      optionsMenuView.$speedGainSlider = optionsMenuView.loadElement($speedGainSlider);
+      optionsMenuView.$gridSizeSlider = optionsMenuView.loadElement($gridSizeSlider);
 
       optionsMenuView.loadElement($volumeSliderDisplay);
       optionsMenuView.loadElement($startSpeedSliderDisplay);
       optionsMenuView.loadElement($speedGainSliderDisplay);
       optionsMenuView.loadElement($gridSizeSliderDisplay);
 
-      optionsMenuView.checkDifficulty = function() {
+      optionsMenuView.calculateDifficulty = function(gridSize, speed, speedGain) {
+        a = 352 / Math.pow(gridSize, 2); // gridsize is 55% of score
+        b = 30000 / Math.pow(speed, 2); // initial speed 30%
+        c = 3/20 * speedGain;            // gain per apple 15% 
+        PillarUI.difficultyScore =  a + b + c;
+      };
+
+      optionsMenuView.changeDifficulty = function() {
+        var gridSize = PillarUI.options.xGridSize;
         var speed = PillarUI.options.gameSpeed;
         var speedGain = PillarUI.options.gameSpeedGain;
-        var gridSize = PillarUI.options.xGridSize;
-        if (speed <= 135 && speedGain >= 7 && gridSize < 10) {
+        optionsMenuView.calculateDifficulty(gridSize, speed, speedGain);
+        if (PillarUI.difficultyScore >= 7) {
           PillarUI.options.pillarType = "monarch";
           optionsMenuView.displayDifficulty(optionsMenuView.$monarchDiv);
-        } else if ((speed > 135 && speed <= 170) ||
-          (speedGain < 7 && speedGain >= 5) ||
-          (gridSize >= 10 && gridSize <= 12)) {
+        } else if (PillarUI.difficultyScore < 7 && PillarUI.difficultyScore >= 4.3) {
           PillarUI.options.pillarType = "luna";
           optionsMenuView.displayDifficulty(optionsMenuView.$lunaDiv);
         } else {
@@ -510,7 +612,7 @@
       bindEscToBack,
       bindOptionsMenuEvents,
       PillarUI.optionsMenuView.resetAllSliders,
-      optionsMenuView.checkDifficulty(),
+      PillarUI.optionsMenuView.changeDifficulty
     ]);
   };
   
@@ -519,6 +621,25 @@
       event.preventDefault();
       PillarUI.initializeMenu();
     });
+    $(".difficulty-div").click(function (event) {
+      var view = PillarUI.optionsMenuView;
+      if ($(event.target).hasClass("options-monarch-div")) {
+        view.$startSpeedSlider.slider("value", 135);
+        view.$speedGainSlider.slider("value", 7);
+        view.$gridSizeSlider.slider("value", 9);
+        view.changeDifficulty();
+      } else if ($(event.target).hasClass("options-luna-div")) {
+        view.$startSpeedSlider.slider("value", 150);
+        view.$speedGainSlider.slider("value", 5);
+        view.$gridSizeSlider.slider("value", 12);
+        view.changeDifficulty();
+      } else if ($(event.target).hasClass("options-swallowtail-div")) {
+        view.$startSpeedSlider.slider("value", 170);
+        view.$speedGainSlider.slider("value", 3);
+        view.$gridSizeSlider.slider("value", 14);
+        view.changeDifficulty();
+      }
+    })
   };
 
   var initializeAbout = PillarUI.initializeAbout = function() {
@@ -539,10 +660,8 @@
         false
       );
 
-      aboutView.loadElement(jQuery("<img/>",{
-        class: "about-image",
-        src: "https://s3-us-west-1.amazonaws.com/polaris-pillar-main/pillar-about.png"
-      }));
+      var images = PillarUI.imagesHash;
+      aboutView.$aboutImg = aboutView.loadElement(images.$aboutImg);
 
       aboutView.createLink("about-back").addClass("pillar-link");
       aboutView.createLink("polaris").addClass("pillar-link");
@@ -588,10 +707,8 @@
         false
       );
 
-      helpView.loadElement(jQuery("<img/>",{
-        class: "help-image",
-        src: "https://s3-us-west-1.amazonaws.com/polaris-pillar-main/pillar-help.png"
-      }));
+      var images = PillarUI.imagesHash;
+      helpView.$helpImg = helpView.loadElement(images.$helpImg);
 
       helpView.createLink("help-back").addClass("pillar-link");
     }
@@ -622,11 +739,13 @@
     });
     var spacing = 0;
 
+    var images = PillarUI.imagesHash;
+
     $gameBoard.css({
       "border-spacing": spacing,
       "height": PillarUI.mainMenuView.parent.height(),
       "width": PillarUI.mainMenuView.parent.width(),
-      "background-image": "url(https://s3-us-west-1.amazonaws.com/polaris-pillar-main/leaflitter.png)",
+      "background-image": "url(" + images.$background.attr("src") + ")",
       "background-size": "120%",
       "opacity": .75
     });
@@ -673,7 +792,7 @@
       e.preventDefault();
       switch(e.which) {
         case 13:
-          alert("Game Paused :3")
+          alert("Game Paused (=)(=)(=)(=)(:3)")
           break;
         case 37:
           Pillar.player.setDirection("left");
@@ -731,7 +850,7 @@
         "color": "blue"
       });
       PillarUI.$score.animate({
-        "color": "black"
+        "color": "white"
       });
       PillarUI.$score.text("Score: " + PillarUI.displayedScore);
       var soundNumber = Math.floor(Math.random() * 3) + 1;
@@ -747,91 +866,3 @@
     PillarUI.initializeMenu();
   }
 })(this);
-
-$(document).ready(function() {
-  PillarUI.soundsArray = new Array;
-  soundManager.setup({
-    url: "https://s3-us-west-1.amazonaws.com/polaris-pillar-main/soundmanager2.swf",
-    flashVersion: 8,
-    onready: function() {
-      soundManager.createSound({
-        id: "bgm",
-        url: "https://s3-us-west-1.amazonaws.com/polaris-pillar-main/ambience.mp3",
-        autoLoad: true,
-        autoPlay: false,
-        stream: false,
-        onload: function() {
-          this.numberPlays = 0;
-          PillarUI.soundsArray.push(this);
-          console.log(this.numberPlays);
-        },
-        onplay: function() {
-          this.numberPlays += 1;
-          var that = this;
-          soundManager.onPosition("bgm", 60574, function() {
-            if (that.numberPlays < 2) {
-              soundManager.play("bgm");
-            }
-          });
-          console.log(this.numberPlays);
-        },
-        onfinish: function() {
-          this.numberPlays -= 1;
-          console.log(this.numberPlays);
-        },
-        onstop: function() {
-          this.numberPlays -= 1;
-          console.log(this.numberPlays);
-        },
-        volume: 100
-      });
-
-      soundManager.createSound({
-        id: "applebite1",
-        url: "https://s3-us-west-1.amazonaws.com/polaris-pillar-main/applebite1.mp3",
-        autoLoad: true,
-        autoPlay: false,
-        stream: false,
-        onload: function() {
-          PillarUI.soundsArray.push(this);
-        },
-        volume: 100
-      });
-
-      soundManager.createSound({
-        id: "applebite2",
-        url: "https://s3-us-west-1.amazonaws.com/polaris-pillar-main/applebite2.mp3",
-        autoLoad: true,
-        autoPlay: false,
-        stream: false,
-        onload: function() {
-          PillarUI.soundsArray.push(this);
-        },
-        volume: 100
-      });
-
-      soundManager.createSound({
-        id: "applebite3",
-        url: "https://s3-us-west-1.amazonaws.com/polaris-pillar-main/applebite3.mp3",
-        autoLoad: true,
-        autoPlay: false,
-        stream: false,
-        onload: function() {
-          PillarUI.soundsArray.push(this);
-        },
-        volume: 100
-      });
-    }
-  });
-
-  var tryLoad = function() {
-    if (PillarUI.soundsArray.length == 4) {
-      PillarUI.initializeMenu();
-    } else {
-      setTimeout(function() {
-        tryLoad();
-      }, 1000);
-    }
-  }
-  tryLoad();
-});
