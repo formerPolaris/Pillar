@@ -157,7 +157,7 @@ $(document).ready(function() {
   });
 
   var tryLoad = function() {
-    var imagesLoaded = function(truncatedHash) {
+    var imagesLoaded = function() {
       var loaded = true;
       $.each(PillarUI.imagesHash, function(index,value) {
         if(!value.get()[0].complete) {

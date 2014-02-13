@@ -293,24 +293,14 @@
         ]));
       };
 
-      var tryLoad = function() {
-        var images = PillarUI.imagesHash;
-        if (document.getElementsByClassName("main-menu-image")[0].complete) {
-          PillarUI.mainMenuView.resize(function() {
-            PillarUI.swapView(PillarUI.mainMenuView, [
-              PillarUI.mainMenuView.spawnLinksAndMotifs,
-              PillarUI.initMenuControls, 
-              PillarUI.bindMenuEvents,
-              function () { PillarUI.mainMenuView.startLogoAnimate(0); }
-            ]);
-          });
-        } else {
-          setTimeout(function() {
-            tryLoad();
-          }, 1000);
-        }
-      }
-      tryLoad();
+      PillarUI.mainMenuView.resize(function() {
+        PillarUI.swapView(PillarUI.mainMenuView, [
+          PillarUI.mainMenuView.spawnLinksAndMotifs,
+          PillarUI.initMenuControls, 
+          PillarUI.bindMenuEvents,
+          function () { PillarUI.mainMenuView.startLogoAnimate(0); }
+        ]);
+      });
     } else {
       PillarUI.swapView(
         PillarUI.mainMenuView, [
@@ -670,7 +660,7 @@
       aboutView.flashLink = function() {
         $(".polaris-link").css({
           "background-color": "blue",
-          "opacity": .45
+          "opacity": .5
         }).animate({
           "opacity": 0
         });
@@ -748,7 +738,7 @@
       "width": PillarUI.mainMenuView.parent.width(),
       "background-image": "url(" + images.$background.attr("src") + ")",
       "background-size": "120%",
-      "opacity": .75
+      "opacity": .6
     });
 
     var boardView = PillarUI.boardView = new CView($gameBoard, PillarUI.$gameContainer, true);
