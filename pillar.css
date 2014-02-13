@@ -18,9 +18,10 @@
   color: darkgrey;
   text-align: center;
   position:relative;
-  top: 35%;
-  font-size: 58pt;
+  top: 38%;
+  font-size: 40pt;
   font-weight: bold;
+  font-family: Verdana, Geneva, sans-serif;
 }
 
 .pillar-ellipsis {
@@ -296,10 +297,15 @@
 }
 
 .pillar-game-foreground {
-  opacity: .2;
+  opacity: 1;
   position: absolute;
   left: 0%;
   top: 0%;
+-webkit-transition: opacity 1s ease-in-out;
+   -moz-transition: opacity 1s ease-in-out;
+    -ms-transition: opacity 1s ease-in-out;
+     -o-transition: opacity 1s ease-in-out;
+        transition: opacity 1s ease-in-out;
 }
 
 .gridspace.clear {
@@ -354,6 +360,7 @@
 .score-holder {
   font-size: 14pt;
   font-weight: bold;
+  font-family: Verdana, Geneva, sans-serif;
   color: white;
   position: absolute;
   top: 3%;

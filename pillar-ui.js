@@ -670,7 +670,7 @@
       aboutView.flashLink = function() {
         $(".polaris-link").css({
           "background-color": "blue",
-          "opacity": .5
+          "opacity": .45
         }).animate({
           "opacity": 0
         });
@@ -785,8 +785,14 @@
         PillarUI.elementGrid[y].push($currentSquare);
       }
       PillarUI.boardView.loadElement($newRow);
-    }      
-    PillarUI.swapView(PillarUI.boardView, [initGameControls, beginUpdates]);
+    }
+    PillarUI.swapView(PillarUI.boardView, [
+      function () {
+        PillarUI.boardView.$foreground.css({"opacity": .5});
+      },
+      initGameControls,
+      beginUpdates
+    ]);
     soundManager.play("bgm");
   };
 
@@ -864,6 +870,7 @@
   var reset = PillarUI.reset = function() {
     alert("You're all out of adventures :(");
     PillarUI.displayedScore = 0;
+    PillarUI.boardView.$foreground.css({"opacity": 1});
     PillarUI.boardView.destroy();
     soundManager.stopAll();
     PillarUI.initializeMenu();
