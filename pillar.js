@@ -94,6 +94,7 @@
           for (var j = 0; j < that.layout[0].length; j++) {
             console.log(that.layout[j][i]);
           }
+          console.log("\n");
         }
       })();
       callback && callback(that.layout, that.roundScore);

@@ -751,7 +751,9 @@
       "opacity": .75
     });
 
-    PillarUI.boardView = new CView($gameBoard, PillarUI.$gameContainer, true);
+    var boardView = PillarUI.boardView = new CView($gameBoard, PillarUI.$gameContainer, true);
+
+    boardView.$foreground = boardView.loadElement(images.$foreground);
 
     var xGrid = PillarUI.options.xGridSize;
     var yGrid = PillarUI.options.yGridSize;
