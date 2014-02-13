@@ -1,6 +1,5 @@
 (function(root) {
   var PillarUI = root.PillarUI = (root.PillarUI || {});
-  var $gameContainer = PillarUI.$gameContainer = $(".pillar-game");
   var nextTabIndex = PillarUI.nextTabIndex = 0;
   var setTabIndex = PillarUI.setTabIndex = function() {
     nextTabIndex++;
