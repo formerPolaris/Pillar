@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  PillarUI.gameContainer = $(".pillar-game")
+  PillarUI.$gameContainer = $(".pillar-game");
   PillarUI.initializeLoadingView();
   
   PillarUI.imagesHash = {
