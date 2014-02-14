@@ -80,7 +80,7 @@
         "width": $loader.width()
       });
 
-      var loadingView = PillarUI.loadingView = new CView($loader, $gameContainer, true);
+      var loadingView = PillarUI.loadingView = new CView($loader, PillarUI.$gameContainer, true);
 
       var $loadingText = jQuery("<div/>", {
         class: "pillar-loading-text"
@@ -169,7 +169,7 @@
 
       var mainMenuView = PillarUI.mainMenuView = new CView(
         $mainMenuDiv,
-        this.$gameContainer,
+        PillarUI.$gameContainer,
         false
       );
 
