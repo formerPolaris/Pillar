@@ -301,6 +301,8 @@
   position: absolute;
   left: 0%;
   top: 0%;
+  height:100%;
+  width:100%;
 -webkit-transition: -webkit-opacity 1s ease-in-out;
    -moz-transition:    -moz-opacity 1s ease-in-out;
     -ms-transition:     -ms-opacity 1s ease-in-out;

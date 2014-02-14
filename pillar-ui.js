@@ -779,6 +779,7 @@
       }
       PillarUI.boardView.loadElement($newRow);
     }
+    PillarUI.canPause = true;
     PillarUI.boardView.$foreground.css({"opacity": .5});
     PillarUI.swapView(PillarUI.boardView, [
       initGameControls,
@@ -787,12 +788,21 @@
     soundManager.play("bgm");
   };
 
+  PillarUI.canPause = true;
+
   var initGameControls = PillarUI.initGameControls = function() {
     $(document).keydown(function(e) {
       e.preventDefault();
+      e.stopPropagation();
       switch(e.which) {
         case 13:
-          alert("Game Paused (=)(=)(=)(=)(:3)")
+          if (PillarUI.canPause) {
+            PillarUI.canPause = false;
+            alert("Game Paused (=)(=)(=)(=)(:3)");
+            setTimeout(function(){
+              PillarUI.canPause = true;
+            }, 3000);
+          }
           break;
         case 37:
           Pillar.player.setDirection("left");
