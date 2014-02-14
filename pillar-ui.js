@@ -767,10 +767,12 @@
       PillarUI.elementGrid.push(new Array());
       for (var x = 0; x < xGrid; x++) {
         var $currentSquare = jQuery("<td/>", {
-           class: "gridspace",
-           height: (Math.floor(arenaY/yGrid) - spacing - 2),
-           width: (Math.floor(arenaX/xGrid) - spacing - 2)
+           class: "gridspace"
         }).appendTo($newRow);
+        $currentSquare.css({
+           "height": (Math.floor(arenaY/yGrid) - spacing - 2),
+           "width": (Math.floor(arenaX/xGrid) - spacing - 2)
+        });
         PillarUI.elementGrid[y].push($currentSquare);
       }
       PillarUI.boardView.loadElement($newRow);
