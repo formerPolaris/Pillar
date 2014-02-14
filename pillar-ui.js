@@ -297,7 +297,10 @@
           PillarUI.mainMenuView.spawnLinksAndMotifs,
           PillarUI.initMenuControls, 
           PillarUI.bindMenuEvents,
-          function () { PillarUI.mainMenuView.startLogoAnimate(0); }
+          function () { 
+            PillarUI.mainMenuView.startLogoAnimate(0);
+            PillarUI.mainMenuView.parent.focus();
+          }
         ]);
       });
     } else {
@@ -305,7 +308,10 @@
         PillarUI.mainMenuView, [
         PillarUI.initMenuControls,
         PillarUI.bindMenuEvents,
-        function () { PillarUI.mainMenuView.startLogoAnimate(0); }
+        function () { 
+          PillarUI.mainMenuView.startLogoAnimate(0);
+          PillarUI.mainMenuView.parent.focus();
+        }
       ]);
     }
   };
@@ -602,7 +608,10 @@
       bindEscToBack,
       bindOptionsMenuEvents,
       PillarUI.optionsMenuView.resetAllSliders,
-      PillarUI.optionsMenuView.changeDifficulty
+      PillarUI.optionsMenuView.changeDifficulty,
+      function () { 
+        PillarUI.optionsMenuView.parent.focus();
+      }
     ]);
   };
   
@@ -665,7 +674,14 @@
         });
       };
     }
-    PillarUI.swapView(PillarUI.aboutView, [bindEscToBack, bindAboutEvents, PillarUI.aboutView.flashLink]);
+    PillarUI.swapView(PillarUI.aboutView, [
+      bindEscToBack,
+      bindAboutEvents,
+      PillarUI.aboutView.flashLink,
+      function () { 
+        PillarUI.aboutView.parent.focus();
+      }
+    ]);
   };
 
   var bindAboutEvents = PillarUI.bindAboutEvents = function() {
@@ -702,7 +718,13 @@
 
       helpView.createLink("help-back").addClass("pillar-link");
     }
-    PillarUI.swapView(PillarUI.helpView, [bindEscToBack, bindHelpEvents]);
+    PillarUI.swapView(PillarUI.helpView, [
+      bindEscToBack,
+      bindHelpEvents,
+      function () { 
+        PillarUI.helpView.parent.focus();
+      }
+    ]);
   };
 
   var bindHelpEvents = PillarUI.bindHelpEvents = function() {
