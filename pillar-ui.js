@@ -767,6 +767,8 @@
         "width": boardView.parent.width(),
         "height": boardView.parent.height()/yGrid
       });
+      console.log(boardView.parent.width());
+      console.log(boardView.parent.height());
       PillarUI.elementGrid.push(new Array());
       for (var x = 0; x < xGrid; x++) {
         var $currentSquare = jQuery("<td/>", {
