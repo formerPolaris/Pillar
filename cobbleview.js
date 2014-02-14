@@ -41,7 +41,7 @@ CView.prototype.showView = function(callbacks) {
     duration: 1000,
     complete: function() {
       that.parent.css({
-        "position": this.parentPosition
+        "position": that.parentPosition
       });
       callbacks && callbacks.forEach(function(callback) {
         callback();
