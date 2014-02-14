@@ -1,4 +1,5 @@
 .pillar-game {
+  overflow: hidden;
   -webkit-user-select: -moz-none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -7,14 +8,14 @@
   background-color: #ffff8b;
 }
 
-.pillar-loading-container {
+.pillar-game .pillar-loading-container {
   width: 550px;
   height: 550px;
   background-color: lightgrey;
   position: relative;
 }
 
-.pillar-loading-text {
+.pillar-game .pillar-loading-text {
   color: darkgrey;
   text-align: center;
   position:relative;
@@ -24,7 +25,7 @@
   font-family: Verdana, Geneva, sans-serif;
 }
 
-.pillar-ellipsis {
+.pillar-game .pillar-ellipsis {
   border-radius: 50%;
   width: 8%;
   height: 8%;
@@ -37,27 +38,27 @@
           transition:         transform .375s ease-in-out;
 }
 
-.pillar-ellipsis.teal-ellipsis-one {
+.pillar-game .pillar-ellipsis.teal-ellipsis-one {
   background-color: teal;
   left: 28%;
 }
 
-.pillar-ellipsis.green-ellipsis-one {
+.pillar-game .pillar-ellipsis.green-ellipsis-one {
   background-color: green;
   left: 40%;
 }
 
-.pillar-ellipsis.teal-ellipsis-two {
+.pillar-game .pillar-ellipsis.teal-ellipsis-two {
   background-color: teal;
   left: 52%;
 }
 
-.pillar-ellipsis.green-ellipsis-two {
+.pillar-game .pillar-ellipsis.green-ellipsis-two {
   background-color: green;
   left: 64%;
 }
 
-.pillar-logo-img {
+.pillar-game .pillar-logo-img {
   position: absolute;
   -webkit-transform: scale(.5);
      -moz-transform: scale(.5);
@@ -72,96 +73,96 @@
           transition:         transform .375s ease-in-out;
 }
 
-.apple-img {
+.pillar-game .apple-img {
   position: absolute;
   right: 12%;
   top: 18.1%;
 }
 
-.apostrophe-img {
+.pillar-game .apostrophe-img {
   right: 81%;
   top: 13.8%;
 }
 
-.p-img {
+.pillar-game .p-img {
   right: 58%;
   top: 4.8%;
 }
 
-.i-img {
+.pillar-game .i-img {
   right: 54.4%;
   top: 3.8%;
 }
 
-.l1-img {
+.pillar-game .l1-img {
   right: 41.5%;
   top: 5.4%;
 }
 
-.l2-img {
+.pillar-game .l2-img {
   right: 37.6%;
   top: 6.3%;
 }
 
-.a-img {
+.pillar-game .a-img {
   top: 16.1%;
   right: 22.6%;
 }
 
-.r-img {
+.pillar-game .r-img {
   right: 15.4%;
   top: 10.5%;
 }
 
-.main-menu-div {
+.pillar-game .main-menu-div {
   background-color: #ffff8b;
   position: relative;
 }
 
-.main-menu-image {
+.pillar-game .main-menu-image {
   position: relative;
   background-color: #ffff8b;
 }
 
-.pillar-link {
+.pillar-game .pillar-link {
   cursor: pointer;
   position: absolute;
 }
 
-.new-game-link {
+.pillar-game .new-game-link {
   height: 5%;
   width: 32%;
   bottom: 43.3%;
   left: 34%;
 }
 
-.options-link {
+.pillar-game .options-link {
   height: 5%;
   width: 22%;
   bottom: 34.7%;
   left: 39%;
 }
 
-.help-link {
+.pillar-game .help-link {
   height: 5%;
   width: 13%;
   bottom: 25.7%;
   left: 43.5%;
 }
 
-.about-div {
+.pillar-game .about-div {
   background-color: #ffff8b;
   position: relative;
 }
 
-.about-link {
+.pillar-game .about-link {
   height: 5%;
   width: 17.5%;
   bottom: 17%;
   left: 41.5%;
 }
 
-.polaris-link {
+.pillar-game .polaris-link {
   height: 3%;
   width: 24%;
   bottom: 67%;
@@ -169,55 +170,55 @@
   border-radius: 3px;
 }
 
-.about-image {
+.pillar-game .about-image {
   background-color: #ffff8b;
 }
 
-.about-back-link {
+.pillar-game .about-back-link {
   height: 5%;
   width: 11%;
   bottom: 2%;
   left: 2%;
 }
 
-.options-menu-div {
+.pillar-game .options-menu-div {
   position: relative;
 }
 
-.options-menu-image {
+.pillar-game .options-menu-image {
   background-color: #ffff8b;
 }
 
-.pillar-slider {
+.pillar-game .pillar-slider {
   position: absolute;
   width: 40.5%;
   height: 2%;
   left: 42%;
 }
 
-.options-menu-volume-slider {
+.pillar-game .options-menu-volume-slider {
   bottom: 77%;
 }
 
-.options-menu-start-speed-slider {
+.pillar-game .options-menu-start-speed-slider {
   bottom: 30.5%;
 }
 
-.options-menu-speed-gain-slider {
+.pillar-game .options-menu-speed-gain-slider {
   bottom: 21%;
 }
 
-.options-menu-grid-size-slider {
+.pillar-game .options-menu-grid-size-slider {
   bottom: 11.5%;
 }
 
-.options-menu-difficulties {
+.pillar-game .options-menu-difficulties {
   bottom: 42.5%;
   left: 46%;
   position: absolute;
 }
 
-.difficulty-div {
+.pillar-game .difficulty-div {
   border-radius: 5px;
   bottom: 41.5%;
   height: 29%;
@@ -226,7 +227,7 @@
   cursor: pointer;
 }
 
-.selected-difficulty {
+.pillar-game .selected-difficulty {
    -webkit-box-shadow: 4px 5px 4px 1px teal;
       -moz-box-shadow: 4px 5px 4px 1px teal;
            box-shadow: 4px 5px 4px 1px teal;
@@ -234,19 +235,19 @@
   border-width: 1px;
 }
 
-.options-swallowtail-div {
+.pillar-game .options-swallowtail-div {
   left: 45.15%;
 }
 
-.options-luna-div {
+.pillar-game .options-luna-div {
   left: 63.65%;
 }
 
-.options-monarch-div {
+.pillar-game .options-monarch-div {
   left: 81.15%;
 }
 
-.options-menu-slider-display {
+.pillar-game .options-menu-slider-display {
   color: darkblue;
   position: absolute;
   left: 86%;
@@ -255,54 +256,52 @@
   font-family: Helvetica, sans-serif;
 }
 
-.opts-volume-display {
+.pillar-game .opts-volume-display {
   bottom: 76%;
 }
 
-.opts-start-speed-display {
+.pillar-game .opts-start-speed-display {
   bottom: 29.5%;
 
 }
 
-.opts-speed-gain-display {
+.pillar-game .opts-speed-gain-display {
   bottom: 20%;
 
 }
 
-.opts-grid-size-display {
+.pillar-game .opts-grid-size-display {
   bottom: 10.5%;
 }
 
-.options-menu-back-link {
+.pillar-game .options-menu-back-link {
   height: 5%;
   width: 11%;
   bottom: 2%;
   left: 2%;
 }
 
-.help-div {
+.pillar-game .help-div {
   position: relative;
 }
 
-.help-back-link {
+.pillar-game .help-back-link {
   height: 5%;
   width: 11%;
   bottom: 2%;
   left: 2%;
 }
 
-.game-board {
+.pillar-game .game-board {
   position: relative;
   overflow: hidden;
 }
 
-.pillar-game-foreground {
+.pillar-game .pillar-game-foreground {
   opacity: 1;
   position: absolute;
   left: 0%;
   top: 0%;
-  height:100%;
-  width:100%;
 -webkit-transition: -webkit-opacity 1s ease-in-out;
    -moz-transition:    -moz-opacity 1s ease-in-out;
     -ms-transition:     -ms-opacity 1s ease-in-out;
@@ -310,56 +309,56 @@
         transition:         opacity 1s ease-in-out;
 }
 
-.gridspace.clear {
+.pillar-game .gridspace.clear {
   opacity: 0;
 }
 
-.gridspace.apple {
+.pillar-game .gridspace.apple {
   opacity: 1;
   background-color: red;
 }
 
-.player-pillar {
+.pillar-game .player-pillar {
   border-radius: 10%;
 }
 
-.luna .color1 {
+.pillar-game .luna .color1 {
   background-color: green;
 }
 
-.luna .color2 {
+.pillar-game .luna .color2 {
   background-color: teal;
 }
 
-.swallowtail .color1 {
+.pillar-game .swallowtail .color1 {
   background-color: orange;
 }
 
-.swallowtail .color2 {
+.pillar-game .swallowtail .color2 {
   background-color: yellow;
 }
 
-.monarch .color1 {
+.pillar-game .monarch .color1 {
   background-color: yellow;
 }
 
-.monarch .color2 {
+.pillar-game .monarch .color2 {
   background-color: black;
 }
 
-.monarch .color3 {
+.pillar-game .monarch .color3 {
   background-color: white;
 }
 
-.monarch .color4 {
+.pillar-game .monarch .color4 {
   background-color: black;
 }
 
-.monarch .color5 {
+.pillar-game .monarch .color5 {
   background-color: white;
 }
 
-.score-holder {
+.pillar-game .score-holder {
   font-size: 14pt;
   font-weight: bold;
   font-family: Verdana, Geneva, sans-serif;
@@ -369,7 +368,7 @@
   left: 4%;
 }
 
-.select-motif {
+.pillar-game .select-motif {
   position: absolute;
   opacity: 0;
   -webkit-transition: -webkit-opacity .2s ease-out;
@@ -379,7 +378,7 @@
           transition:         opacity .2s ease-out;
 }
 
-.select-motif.active {
+.pillar-game .select-motif.active {
   position: absolute;
   opacity: 1;
   -webkit-transition: -webkit-opacity .2s ease-in;
@@ -390,11 +389,11 @@
 
 }
 
-.select-motif img.left {
+.pillar-game .select-motif img.left {
   float: left;
 }
 
-.select-motif img.right {
+.pillar-game .select-motif img.right {
   float: right;
 
   -webkit-transform: scaleX(-1);
@@ -405,26 +404,26 @@
           filter: FlipH;
 }
 
-.new-game-motif {
+.pillar-game .new-game-motif {
   height: 5%;
   width: 57%;
   bottom: 43.3%;
   left: 21.5%;
 }
 
-.options-motif {
+.pillar-game .options-motif {
   width: 47%;
   bottom: 34.7%;
   left: 26.5%;
 }
 
-.help-motif {
+.pillar-game .help-motif {
   width: 38%;
   bottom: 25.7%;
   left: 31%;
 }
 
-.about-motif {
+.pillar-game .about-motif {
   width: 41.5%;
   bottom: 17%;
   left: 29.5%;
