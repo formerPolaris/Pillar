@@ -30,11 +30,11 @@
   height: 8%;
   position: absolute;
   bottom: 40%;
-  -webkit-transition: transform .375s ease-in-out;
-     -moz-transition: transform .375s ease-in-out;
-      -ms-transition: transform .375s ease-in-out;
-       -o-transition: transform .375s ease-in-out;
-          transition: transform .375s ease-in-out;
+  -webkit-transition: -webkit-transform .375s ease-in-out;
+     -moz-transition:    -moz-transform .375s ease-in-out;
+      -ms-transition:     -ms-transform .375s ease-in-out;
+       -o-transition:      -o-transform .375s ease-in-out;
+          transition:         transform .375s ease-in-out;
 }
 
 .pillar-ellipsis.teal-ellipsis-one {
@@ -65,11 +65,11 @@
        -o-transform: scale(.5);
           transform: scale(.5);
   opacity: 1;
-  -webkit-transition: transform .375s ease-in-out;
-     -moz-transition: transform .375s ease-in-out;
-      -ms-transition: transform .375s ease-in-out;
-       -o-transition: transform .375s ease-in-out;
-          transition: transform .375s ease-in-out;
+  -webkit-transition: -webkit-transform .375s ease-in-out;
+     -moz-transition:    -moz-transform .375s ease-in-out;
+      -ms-transition:     -ms-transform .375s ease-in-out;
+       -o-transition:      -o-transform .375s ease-in-out;
+          transition:         transform .375s ease-in-out;
 }
 
 .apple-img {
@@ -301,11 +301,11 @@
   position: absolute;
   left: 0%;
   top: 0%;
--webkit-transition: opacity 1s ease-in-out;
-   -moz-transition: opacity 1s ease-in-out;
-    -ms-transition: opacity 1s ease-in-out;
-     -o-transition: opacity 1s ease-in-out;
-        transition: opacity 1s ease-in-out;
+-webkit-transition: -webkit-opacity 1s ease-in-out;
+   -moz-transition:    -moz-opacity 1s ease-in-out;
+    -ms-transition:     -ms-opacity 1s ease-in-out;
+     -o-transition:      -o-opacity 1s ease-in-out;
+        transition:         opacity 1s ease-in-out;
 }
 
 .gridspace.clear {
@@ -370,21 +370,21 @@
 .select-motif {
   position: absolute;
   opacity: 0;
-  -webkit-transition: opacity .2s ease-out;
-     -moz-transition: opacity .2s ease-out;
-      -ms-transition: opacity .2s ease-out;
-       -o-transition: opacity .2s ease-out;
-          transition: opacity .2s ease-out;
+  -webkit-transition: -webkit-opacity .2s ease-out;
+     -moz-transition:    -moz-opacity .2s ease-out;
+      -ms-transition:     -ms-opacity .2s ease-out;
+       -o-transition:      -o-opacity .2s ease-out;
+          transition:         opacity .2s ease-out;
 }
 
 .select-motif.active {
   position: absolute;
   opacity: 1;
-  -webkit-transition: opacity .2s ease-in;
-     -moz-transition: opacity .2s ease-in;
-      -ms-transition: opacity .2s ease-in;
-       -o-transition: opacity .2s ease-in;
-          transition: opacity .2s ease-in;
+  -webkit-transition: -webkit-opacity .2s ease-in;
+     -moz-transition:    -moz-opacity .2s ease-in;
+      -ms-transition:     -ms-opacity .2s ease-in;
+       -o-transition:      -o-opacity .2s ease-in;
+          transition:         opacity .2s ease-in;
 
 }
 
