@@ -764,14 +764,16 @@
       var $newRow = jQuery("<tr>", {
         class: "grid-row"
       });
+      $newRow.css({
+        "height": (Math.floor(arenaY/yGrid) - spacing)
+      });
       PillarUI.elementGrid.push(new Array());
       for (var x = 0; x < xGrid; x++) {
         var $currentSquare = jQuery("<td/>", {
            class: "gridspace"
         }).appendTo($newRow);
         $currentSquare.css({
-           "height": (Math.floor(arenaY/yGrid) - spacing - 2),
-           "width": (Math.floor(arenaX/xGrid) - spacing - 2)
+           "width": (Math.floor(arenaX/xGrid) - spacing)
         });
         PillarUI.elementGrid[y].push($currentSquare);
       }
