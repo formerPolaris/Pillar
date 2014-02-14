@@ -723,6 +723,8 @@
   };
 
   var initializeBoard = PillarUI.initializeBoard = function() {
+    var moduleHeight = PillarUI.mainMenuView.parent.height();
+    var moduleWidth = PillarUI.mainMenuView.parent.width();
     var $gameBoard = jQuery("<table/>", {
       class: "game-board" + " " + PillarUI.options.pillarType,
       tabIndex: setTabIndex()
@@ -733,8 +735,8 @@
 
     $gameBoard.css({
       "border-spacing": spacing,
-      "height": PillarUI.mainMenuView.parent.height(),
-      "width": PillarUI.mainMenuView.parent.width(),
+      "height": moduleHeight,
+      "width": moduleWidth,
       "background-image": "url(" + images.$background.attr("src") + ")",
       "background-size": "100%"
     });
@@ -747,9 +749,6 @@
     var yGrid = PillarUI.options.yGridSize;
     var xImageScale = .5 * xGrid/10
     var yImageScale = .5 * yGrid/10
-
-    var arenaY = PillarUI.mainMenuView.parentHeight;
-    var arenaX = PillarUI.mainMenuView.parentWidth;
 
     PillarUI.elementGrid = new Array();
     PillarUI.$score = jQuery("<div/>", {
@@ -764,22 +763,18 @@
         class: "grid-row"
       });
       $newRow.css({
-        "width": boardView.parent.width(),
-        "height": boardView.parent.height()/yGrid
+        "height": moduleHeight/yGrid,
+        "width": moduleWidth
       });
-      console.log(boardView.parent.width());
-      console.log(boardView.parent.height());
       PillarUI.elementGrid.push(new Array());
       for (var x = 0; x < xGrid; x++) {
         var $currentSquare = jQuery("<td/>", {
            class: "gridspace"
         }).appendTo($newRow);
         $currentSquare.css({
-           "width": $newRow.width()/xGrid - spacing,
-           "height": $newRow.height() - spacing
+           "width": moduleWidth/xGrid - spacing,
+           "height": moduleHeight/yGrid - spacing
         });
-        console.log($newRow.width()/xGrid - spacing);
-        console.log($newRow.height() - spacing);
         PillarUI.elementGrid[y].push($currentSquare);
       }
       PillarUI.boardView.loadElement($newRow);
