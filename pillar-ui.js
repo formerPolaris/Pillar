@@ -764,8 +764,8 @@
         class: "grid-row"
       });
       $newRow.css({
-        width: boardView.parent.width(),
-        height: boardView.parent.height()/yGrid
+        "width": boardView.parent.width(),
+        "height": boardView.parent.height()/yGrid
       });
       PillarUI.elementGrid.push(new Array());
       for (var x = 0; x < xGrid; x++) {
@@ -774,8 +774,10 @@
         }).appendTo($newRow);
         $currentSquare.css({
            "width": $newRow.width()/xGrid - spacing,
-           height: $newRow.height()
+           "height": $newRow.height() - spacing
         });
+        console.log($newRow.width()/xGrid - spacing);
+        console.log($newRow.height() - spacing);
         PillarUI.elementGrid[y].push($currentSquare);
       }
       PillarUI.boardView.loadElement($newRow);
