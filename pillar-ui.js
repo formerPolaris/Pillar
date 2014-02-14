@@ -736,8 +736,7 @@
       "height": PillarUI.mainMenuView.parent.height(),
       "width": PillarUI.mainMenuView.parent.width(),
       "background-image": "url(" + images.$background.attr("src") + ")",
-      "background-size": "120%",
-      "opacity": .6
+      "background-size": "100%"
     });
 
     var boardView = PillarUI.boardView = new CView($gameBoard, PillarUI.$gameContainer, true);
@@ -765,7 +764,8 @@
         class: "grid-row"
       });
       $newRow.css({
-        "height": (Math.floor(arenaY/yGrid) - spacing)
+        width: boardView.parent.width(),
+        height: boardView.parent.height()/yGrid
       });
       PillarUI.elementGrid.push(new Array());
       for (var x = 0; x < xGrid; x++) {
@@ -773,16 +773,15 @@
            class: "gridspace"
         }).appendTo($newRow);
         $currentSquare.css({
-           "width": (Math.floor(arenaX/xGrid) - spacing)
+           "width": $newRow.width()/xGrid - spacing,
+           height: $newRow.height()
         });
         PillarUI.elementGrid[y].push($currentSquare);
       }
       PillarUI.boardView.loadElement($newRow);
     }
+    PillarUI.boardView.$foreground.css({"opacity": .5});
     PillarUI.swapView(PillarUI.boardView, [
-      function () {
-        PillarUI.boardView.$foreground.css({"opacity": .5});
-      },
       initGameControls,
       beginUpdates
     ]);
