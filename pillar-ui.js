@@ -76,8 +76,8 @@
       });
 
       PillarUI.$gameContainer.css({
-        "height": $loader.height(),
-        "width": $loader.width()
+        height: $loader.height(),
+        width: $loader.width()
       });
 
       var loadingView = PillarUI.loadingView = new CView($loader, PillarUI.$gameContainer, true);
@@ -416,8 +416,8 @@
       });
 
       $optionsMenuDiv.css({
-        "height": PillarUI.$gameContainer.height(),
-        "width": PillarUI.$gameContainer.width()
+        height: PillarUI.$gameContainer.height(),
+        width: PillarUI.$gameContainer.width()
       })
 
       var optionsMenuView = PillarUI.optionsMenuView = new CView(
@@ -649,8 +649,8 @@
       });
 
       $aboutDiv.css({
-        "height": PillarUI.$gameContainer.height(),
-        "width": PillarUI.$gameContainer.width()
+        height: PillarUI.$gameContainer.height(),
+        width: PillarUI.$gameContainer.width()
       })
 
       var aboutView = PillarUI.aboutView = new CView(
@@ -703,8 +703,8 @@
       });
 
       $helpDiv.css({
-        "height": PillarUI.$gameContainer.height(),
-        "width": PillarUI.$gameContainer.width()
+        height: PillarUI.$gameContainer.height(),
+        width: PillarUI.$gameContainer.width()
       })
 
       var helpView = PillarUI.helpView = new CView(
@@ -757,8 +757,8 @@
 
     $gameBoard.css({
       "border-spacing": spacing,
-      "height": moduleHeight,
-      "width": moduleWidth,
+      height: moduleHeight,
+      width: moduleWidth,
       "background-image": "url(" + images.$background.attr("src") + ")",
       "background-size": "100%"
     });
@@ -813,7 +813,7 @@
   PillarUI.canPause = true;
 
   var initGameControls = PillarUI.initGameControls = function() {
-    $(document).keydown(function(e) {
+    PillarUI.boardView.parent.keydown(function(e) {
       e.preventDefault();
       e.stopPropagation();
       switch(e.which) {
