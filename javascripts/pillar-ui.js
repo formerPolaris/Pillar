@@ -80,7 +80,12 @@
         width: $loader.width()
       });
 
-      var loadingView = PillarUI.loadingView = new CView($loader, PillarUI.$gameContainer, true);
+      var loadingView = PillarUI.loadingView = new CView({
+        parent: $loader,
+        target: PillarUI.$gameContainer,
+        transitionTime: 1000,
+        visible: true
+      });
 
       var $loadingText = jQuery("<div/>", {
         class: "pillar-loading-text"
@@ -167,11 +172,12 @@
         tabIndex: setTabIndex()
       });
 
-      var mainMenuView = PillarUI.mainMenuView = new CView(
-        $mainMenuDiv,
-        PillarUI.$gameContainer,
-        false
-      );
+      var mainMenuView = PillarUI.mainMenuView = new CView({
+        parent: $mainMenuDiv,
+        target: PillarUI.$gameContainer,
+        transitionTime: 1000,
+        visible: false
+      });
 
       var images = PillarUI.imagesHash;
 
@@ -420,11 +426,12 @@
         width: PillarUI.$gameContainer.width()
       })
 
-      var optionsMenuView = PillarUI.optionsMenuView = new CView(
-        $optionsMenuDiv,
-        PillarUI.$gameContainer,
-        false
-      );
+      var optionsMenuView = PillarUI.optionsMenuView = new CView({
+        parent: $optionsMenuDiv,
+        target: PillarUI.$gameContainer,
+        transitionTime: 1000,
+        visible: false
+      });
 
       var images = PillarUI.imagesHash;
       optionsMenuView.$optionsMenuImg = optionsMenuView.loadElement(images.$optionsMenuImg);
@@ -653,11 +660,12 @@
         width: PillarUI.$gameContainer.width()
       })
 
-      var aboutView = PillarUI.aboutView = new CView(
-        $aboutDiv,
-        PillarUI.$gameContainer,
-        false
-      );
+      var aboutView = PillarUI.aboutView = new CView({
+        parent: $aboutDiv,
+        target: PillarUI.$gameContainer,
+        visible: false,
+        transitionTime: 1000
+      });
 
       var images = PillarUI.imagesHash;
       aboutView.$aboutImg = aboutView.loadElement(images.$aboutImg);
@@ -707,11 +715,12 @@
         width: PillarUI.$gameContainer.width()
       })
 
-      var helpView = PillarUI.helpView = new CView(
-        $helpDiv,
-        PillarUI.$gameContainer,
-        false
-      );
+      var helpView = PillarUI.helpView = new CView({
+        parent: $helpDiv,
+        target: PillarUI.$gameContainer,
+        visible: false,
+        transitionTime: 1000
+      });
 
       var images = PillarUI.imagesHash;
       helpView.$helpImg = helpView.loadElement(images.$helpImg);
@@ -763,7 +772,12 @@
       "background-size": "100%"
     });
 
-    var boardView = PillarUI.boardView = new CView($gameBoard, PillarUI.$gameContainer, true);
+    var boardView = PillarUI.boardView = new CView({
+      parent: $gameBoard,
+      target: PillarUI.$gameContainer,
+      visible: false,
+      transitionTime: 1000
+    });
 
     boardView.$foreground = boardView.loadElement(images.$foreground);
 
