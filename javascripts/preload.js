@@ -169,7 +169,7 @@ $(document).ready(function() {
         });
         return loaded;
       } 
-      if(imagesLoaded() && PillarUI.soundsArray.length == 4) {
+      if(imagesLoaded() && PillarUI.soundsArray.length === 4) {
         PillarUI.initializeMenu();
       } else {
         setTimeout(function() {

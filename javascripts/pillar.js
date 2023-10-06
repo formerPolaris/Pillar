@@ -53,7 +53,7 @@
         var currentX = space[1];
         var currentColor = player.spaces.length - colorOffset;
 
-        if (that.layout[currentY][currentX] == 1) {
+        if (that.layout[currentY][currentX] === 1) {
           if (options.gameSpeed > options.maxGameSpeed) {
             options.gameSpeed -= options.gameSpeedGain;
             if (options.gameSpeed < options.maxGameSpeed){
@@ -132,13 +132,13 @@
       if (this.spaces[this.size() - 2] !== undefined) {
         var behindY = this.head()[0] - this.spaces[this.size() - 2][0];
         var behindX = this.head()[1] - this.spaces[this.size() - 2][1];
-        if (behindY == 1 && dir !== "up") {
+        if (behindY === 1 && dir !== "up") {
           this.direction = dir;
-        } else if (behindY == -1 && dir !== "down") {
+        } else if (behindY === -1 && dir !== "down") {
           this.direction = dir;
-        } else if (behindX == 1 && dir !== "left") {
+        } else if (behindX === 1 && dir !== "left") {
           this.direction = dir;
-        } else if (behindX == -1 && dir !== "right") {
+        } else if (behindX === -1 && dir !== "right") {
           this.direction = dir;
         }
       } else {
@@ -147,12 +147,12 @@
     },
 
     chooseMode: function() {
-      if (this.mode == "moving") {
-        if (this.scrunched == 0) {
+      if (this.mode === "moving") {
+        if (this.scrunched === 0) {
           this.mode = "scrunching";
         }
       } else { // if mode is scrunching
-        if (this.scrunched == 5 || this.scrunched - this.growing >= Math.floor(this.size()/2)) {
+        if (this.scrunched === 5 || this.scrunched - this.growing >= Math.floor(this.size()/2)) {
           this.mode = "moving";
           // if half or more scrunched, or 3, whichever first, start moving
         }
@@ -187,7 +187,7 @@
       this.scrunched += 1;
     },
     update: function() {
-      if (this.mode == "scrunching") {
+      if (this.mode === "scrunching") {
         this.scrunch();
       } else {
         this.move();
@@ -211,7 +211,7 @@
     
     // Self-collision
     for (var i = 0; i < player.size() - 2; i++) {
-      if (player.spaces[i][0] == headY && player.spaces[i][1] == headX) { 
+      if (player.spaces[i][0] === headY && player.spaces[i][1] === headX) { 
         return true;
       }
     }

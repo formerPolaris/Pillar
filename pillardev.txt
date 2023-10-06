@@ -10,7 +10,7 @@ Now I ran into an OOP design problem. The game UI relied on knowing the state of
 
 So I decided to scrap space[2] and instead have the board assign to each caterpillar-occupying space that space's index within the caterpillar's space queue array, going backwards. For example:
 
-Pillar.spaces == [[0,1],[0,2],[0,3]];
+Pillar.spaces === [[0,1],[0,2],[0,3]];
 
 Since this is a FIFO queue, that means the caterpillar's head is at 0,3. ForEach works from the back of the queue to the front. But this isn't an issue:
 

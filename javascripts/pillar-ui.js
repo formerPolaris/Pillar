@@ -25,7 +25,7 @@
     callback && callback();
   };
   var displaySelection = PillarUI.displaySelection = function() {
-    if ($(".main-menu-image").css("opacity") == 1) {
+    if ($(".main-menu-image").css("opacity") === 1) {
       PillarUI.mainMenuSelectables.forEach(function(name) {
         if (name !== PillarUI.mainMenuSelection) {
           $("." + name + "-motif").removeClass("active");
@@ -265,7 +265,7 @@
                       "transform": "scale(.65)"
           });
           window.setTimeout(function() {
-            if (letterIndex == PillarUI.mainMenuView.logoArray.length - 1 &&
+            if (letterIndex === PillarUI.mainMenuView.logoArray.length - 1 &&
               PillarUI.mainMenuView.visible) {
               PillarUI.mainMenuView.eatApple();
             }
@@ -747,7 +747,7 @@
   var bindEscToBack = PillarUI.bindEscToBack = function() {
     PillarUI.currentView.parent.keydown(function(e) {
       e.preventDefault();
-      if (e.keyCode == 27) {
+      if (e.keyCode === 27) {
         PillarUI.initializeMenu();
       }
     });
