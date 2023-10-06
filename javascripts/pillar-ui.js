@@ -699,7 +699,7 @@
     });
     $(".polaris-link").click(function(event) {
       event.preventDefault();
-      window.open("https://github.com/Polaris");
+      window.open("https://github.com/formerPolaris");
     });
   };
 
